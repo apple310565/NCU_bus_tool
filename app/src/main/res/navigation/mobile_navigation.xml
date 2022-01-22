@@ -22,4 +22,13 @@
         android:name="flag.com.ncubus.ui.notifications.NotificationsFragment"
         android:label="@string/title_train"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_busstops"
+        android:name="flag.com.ncubus.ui.busstops.BusstopsFragment"
+        android:label="@string/title_bus"
+        tools:layout="@layout/busstops_fragment"
+        app:defaultNavHost="true" >
+    </fragment>
+
 </navigation>

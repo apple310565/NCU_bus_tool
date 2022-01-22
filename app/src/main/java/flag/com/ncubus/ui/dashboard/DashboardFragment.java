@@ -2,11 +2,11 @@ package flag.com.ncubus.ui.dashboard;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.Cursor;
+//import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
+//import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -41,8 +43,13 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.net.ssl.HttpsURLConnection;
 
 import flag.com.ncubus.R;
-import flag.com.ncubus.MainActivity;
+//import flag.com.ncubus.MainActivity;
 import flag.com.ncubus.databinding.FragmentDashboardBinding;
+import flag.com.ncubus.ui.FragmentChangeListener;
+import flag.com.ncubus.ui.busstops.BusstopsFragment;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 public class DashboardFragment extends Fragment {
     Spinner route_spinner;
@@ -94,10 +101,22 @@ public class DashboardFragment extends Fragment {
         lstPrefer1.setAdapter(adapter);
         ListView lstPrefer2 = (ListView)getView().findViewById(R.id.BusStop_list2);
         lstPrefer2.setAdapter(adapter);
+
+        lstPrefer1.setOnItemClickListener(lstPrefer1_Listener); //綁定 click 事件
     }
+
+    private ListView.OnItemClickListener lstPrefer1_Listener =
+        new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                //被點擊時要做的事情
+                NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                nc.navigate(R.id.navigation_busstops);
+        }
+    };
     public class MyAdapter extends BaseAdapter {
 
-        private LayoutInflater myInflater;
+        final private LayoutInflater myInflater;
 
         public MyAdapter(Context c) {
             myInflater = LayoutInflater.from(c);
