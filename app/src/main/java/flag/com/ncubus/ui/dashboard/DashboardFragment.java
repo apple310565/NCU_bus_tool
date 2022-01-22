@@ -131,7 +131,10 @@ public class DashboardFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         LinearLayout L=(LinearLayout)getView().findViewById(R.id.sc) ;
-                        if(OUT.size()!=0)L.removeView(OUT.get(0));
+                        if(OUT.size()!=0){
+                            for(int i=0;i<OUT.size();i++)L.removeView(OUT.get(i));
+                        }
+                        OUT.clear();
                         LinearLayout tmp =new LinearLayout(getActivity());
                         OUT.add(tmp);
                         tmp.setOrientation(LinearLayout.VERTICAL);
