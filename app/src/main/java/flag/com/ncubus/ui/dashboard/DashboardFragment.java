@@ -1,6 +1,7 @@
 package flag.com.ncubus.ui.dashboard;
 
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +9,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +41,11 @@ import flag.com.ncubus.R;
 import flag.com.ncubus.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
-
+    Spinner route_spinner;
+    String route_name;
+    ArrayList<String> items =new ArrayList<>();
+    //static final LinearLayout out = null;
+    ArrayList<LinearLayout> OUT =new ArrayList<>();
     private DashboardViewModel dashboardViewModel;
     private FragmentDashboardBinding binding;
 
@@ -53,7 +61,8 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                     //Todo
-                bus();
+                produce_spinner();
+                //bus();
             }
         });
         return root;
@@ -67,18 +76,16 @@ public class DashboardFragment extends Fragment {
     public void renew_buslist(String url){
 
     }
-    public void bus(){
-        TextView route_Name =(TextView)getView().findViewById(R.id.route_Name);
+    public void bus(String urlString){
         TextView Update_time =(TextView)getView().findViewById(R.id.Update_time);
-        route_Name.setText("(132) 中央大學 -> 中壢");
         ProgressDialog dialog = ProgressDialog.show(getContext(),"讀取中"
                 ,"請稍候",true);
         AtomicReference<String> global_SrcUpdateTime= new AtomicReference<>("");
         List<String> Zh_tws=new ArrayList<String>();
         List<String> NextBusTimes=new ArrayList<String>();
-        LinearLayout out = (LinearLayout) getView().findViewById(R.id.sc);
+        final LinearLayout[] out = {(LinearLayout) getView().findViewById(R.id.sc)};
         new Thread(()->{//一次性Thread
-            String urlString = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/132?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%201&%24format=JSON\n";
+            //String urlString = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/132?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%201&%24format=JSON\n";
             try {
                 // 初始化 URL
                 URL url = new URL(urlString);
@@ -123,6 +130,12 @@ public class DashboardFragment extends Fragment {
                 }
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
+                        LinearLayout L=(LinearLayout)getView().findViewById(R.id.sc) ;
+                        if(OUT.size()!=0)L.removeView(OUT.get(0));
+                        LinearLayout tmp =new LinearLayout(getActivity());
+                        OUT.add(tmp);
+                        tmp.setOrientation(LinearLayout.VERTICAL);
+                        L.addView(tmp, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         dialog.dismiss();
                         for (int i = 0; i < Zh_tws.size(); i++) {
                             LinearLayout in = new LinearLayout(getActivity());
@@ -130,20 +143,16 @@ public class DashboardFragment extends Fragment {
                             margin_tool.setPadding(15, 15, 15, 15);
                             in.setPadding(40, 40, 40, 40);
                             in.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                            //in.setOrientation(1);
                             margin_tool.addView(in, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            out.addView(margin_tool, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            tmp.addView(margin_tool, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                             final TextView Zh_tw_tv = new TextView(getActivity());
-                            //Zh_tw_tv.setGravity(Gravity.CENTER);
                             Zh_tw_tv.setText(Zh_tws.get(i)+"| ");
                             Zh_tw_tv.setTextSize(18);
                             final TextView NextBusTimes_tv = new TextView(getActivity());
                             NextBusTimes_tv.setText("預計到站時間: " + NextBusTimes.get(i));
-                            //final TextView UpdateTime_tv = new TextView(getActivity());
-                            //UpdateTime_tv.setText("最後更新時間: " + global_SrcUpdateTime);
                             in.addView(Zh_tw_tv);
                             in.addView(NextBusTimes_tv);
-                            //in.addView(UpdateTime_tv);
+
                         }
                         Update_time.setText("最後更新時間: " + global_SrcUpdateTime);
                     }
@@ -153,6 +162,43 @@ public class DashboardFragment extends Fragment {
             }
 
         }).start();
+    }
+    public void produce_spinner(){
+        route_spinner = getView().findViewById(R.id.route);
+        items.add("[132]中壢 - 中央大學(去程)");
+        items.add("[132]中壢 - 中央大學(返程)");
+        items.add("[133]中壢 - 中央大學(去程)");
+        items.add("[133]中壢 - 中央大學(返程)");
+        items.add("[172]中央大學 - 高鐵桃園站(去程)");
+        items.add("[172]中央大學 - 高鐵桃園站(返程)");
+        items.add("[173]中央大學 - 高鐵桃園站(去程)");
+        items.add("[173]中央大學 - 高鐵桃園站(返程)");
+        route_name="";
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
+        route_spinner.setAdapter(adapter);
+        route_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!items.get(position).equals(route_name)){
+                    route_name=items.get(position);
+                    Log.i("[SELECT]",route_name);
+                    TextView route_tv=(TextView)getView().findViewById(R.id.route_Name);
+                    route_tv.setText(route_name);
+                    String direction="";
+                    String route_id="";
+                    direction=(route_name.split("\\(")[1]).split("\\)")[0];
+                    if(direction.equals("去程"))direction="0";
+                    else direction="1";
+                    route_id=(route_name.split("\\[")[1]).split("\\]")[0];
+                    String url = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/"+route_id+"?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%20"+direction+"&%24format=JSON";
+                    bus(url);
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
 
