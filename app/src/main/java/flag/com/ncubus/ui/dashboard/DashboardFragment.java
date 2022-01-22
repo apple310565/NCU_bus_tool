@@ -1,6 +1,7 @@
 package flag.com.ncubus.ui.dashboard;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,6 +41,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.net.ssl.HttpsURLConnection;
 
 import flag.com.ncubus.R;
+import flag.com.ncubus.MainActivity;
 import flag.com.ncubus.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
@@ -48,6 +52,14 @@ public class DashboardFragment extends Fragment {
     ArrayList<LinearLayout> OUT =new ArrayList<>();
     private DashboardViewModel dashboardViewModel;
     private FragmentDashboardBinding binding;
+    String[] BusStops = {"132",
+            "133",
+            "172",
+            "173"};
+    String[] BusRoute = {"中壢 - 中央大學",
+            "中壢 - 中央大學",
+            "中央大學 - 高鐵桃園站",
+            "中央大學 - 高鐵桃園站"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,9 +72,10 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                    //Todo
-                produce_spinner();
+                //Todo
+                //produce_spinner();
                 //bus();
+                updateBuslist(); //建立一開始的公車清單
             }
         });
         return root;
@@ -73,9 +86,55 @@ public class DashboardFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    // 建立公車清單---開始
+    public void updateBuslist() {
+        ListView lstPrefer1 = (ListView)getView().findViewById(R.id.BusStop_list1);
+        MyAdapter adapter = new MyAdapter(getActivity());
+        lstPrefer1.setAdapter(adapter);
+        ListView lstPrefer2 = (ListView)getView().findViewById(R.id.BusStop_list2);
+        lstPrefer2.setAdapter(adapter);
+    }
+    public class MyAdapter extends BaseAdapter {
+
+        private LayoutInflater myInflater;
+
+        public MyAdapter(Context c) {
+            myInflater = LayoutInflater.from(c);
+        }
+        @Override
+        public int getCount() {
+            return BusStops.length;
+        }
+        @Override
+        public Object getItem(int position) {
+            return BusStops[position];
+        }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            convertView = myInflater.inflate(R.layout.bus_stoplist_layout, null);
+
+            // 取得 bus_stoplist_layout.xml 元件
+            TextView busNumber = ((TextView) convertView.findViewById(R.id.busNumber));
+            TextView busRoute = ((TextView) convertView.findViewById(R.id.busRoute));
+
+            // 設定元件內容
+            busNumber.setText(BusStops[position]);
+            busRoute.setText(BusRoute[position]);
+
+            return convertView;
+        }
+    }
+    // 建立公車清單---結束
+
     public void renew_buslist(String url){
 
     }
+
     public void bus(String urlString){
         TextView Update_time =(TextView)getView().findViewById(R.id.Update_time);
         ProgressDialog dialog = ProgressDialog.show(getContext(),"讀取中"
@@ -166,6 +225,7 @@ public class DashboardFragment extends Fragment {
 
         }).start();
     }
+
     public void produce_spinner(){
         route_spinner = getView().findViewById(R.id.route);
         items.add("[132]中壢 - 中央大學(去程)");

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">NCU bus</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_bike">自行車 Bike</string>
+    <string name="title_bus">公車 Bus</string>
+    <string name="title_train">火車 Train</string>
+    <string name="subtitle_bike">Bike</string>
+    <string name="subtitle_bus">Bus</string>
+    <string name="subtitle_train">Train</string>
 </resources>
