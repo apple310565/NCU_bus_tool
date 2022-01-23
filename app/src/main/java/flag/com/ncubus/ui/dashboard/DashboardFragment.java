@@ -59,6 +59,9 @@ public class DashboardFragment extends Fragment {
     ArrayList<LinearLayout> OUT =new ArrayList<>();
     private DashboardViewModel dashboardViewModel;
     private FragmentDashboardBinding binding;
+
+    // ListView要建立的項目，會一一對應到 bus_number_list_layout裡的東西
+    // 再逐一顯示在這個 fragment的 ListView區塊裡面
     String[] BusStops = {"132",
             "133",
             "172",
@@ -76,13 +79,15 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // 這邊的 onChanged 不能改，會掛掉
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                //Todo
+                //Todo: 抵達時間那些我移動到 BusstopsFragment 那邊去做了
+                // 這個fragment主要應該只做顯示班次就好
                 //produce_spinner();
                 //bus();
-                updateBuslist(); //建立一開始的公車清單
+                addBuslist(); // 建立一開始的公車班次清單
             }
         });
         return root;
@@ -94,28 +99,56 @@ public class DashboardFragment extends Fragment {
         binding = null;
     }
 
-    // 建立公車清單---開始
-    public void updateBuslist() {
+    // 建立公車班次清單---開始
+    public void addBuslist() {
+        //把班次和路線塞進去 listView，之後路線可以考慮改方向 (e.g., 中壢-中央 & 中央-中壢)
+        // 1是去程，2是返程
         ListView lstPrefer1 = (ListView)getView().findViewById(R.id.BusStop_list1);
         MyAdapter adapter = new MyAdapter(getActivity());
         lstPrefer1.setAdapter(adapter);
         ListView lstPrefer2 = (ListView)getView().findViewById(R.id.BusStop_list2);
         lstPrefer2.setAdapter(adapter);
 
-        lstPrefer1.setOnItemClickListener(lstPrefer1_Listener); //綁定 click 事件
+        lstPrefer1.setOnItemClickListener(lstPrefer_Listener1); //綁定 click 事件
+        lstPrefer2.setOnItemClickListener(lstPrefer_Listener2); //綁定 click 事件
     }
 
-    private ListView.OnItemClickListener lstPrefer1_Listener =
+    // click listener，1是去程，2是返程
+    private ListView.OnItemClickListener lstPrefer_Listener1 =
         new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 //被點擊時要做的事情
+                String busNumber = parent.getItemAtPosition(position).toString();
+                //傳班次+方向給下一頁(BusstopsFragment)，讓它去找班次+顯示
+                Bundle result = new Bundle();
+                result.putString("busNumber", busNumber);
+                result.putInt("direction", 0);
+                getParentFragmentManager().setFragmentResult("requestKey", result);
+                //導向下一頁
                 NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
                 nc.navigate(R.id.navigation_busstops);
         }
     };
+    // 目前先複製，和上面的差別只有 direction 的參數而已
+    private ListView.OnItemClickListener lstPrefer_Listener2 =
+        new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                //被點擊時要做的事情
+                String busNumber = parent.getItemAtPosition(position).toString();
+                //傳班次+方向給下一頁(BusstopsFragment)，讓它去找班次+顯示
+                Bundle result = new Bundle();
+                result.putString("busNumber", busNumber);
+                result.putInt("direction", 1);
+                getParentFragmentManager().setFragmentResult("requestKey", result);
+                //導向下一頁
+                NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                nc.navigate(R.id.navigation_busstops);
+        }
+    };
+    // 建立公車班次清單需要的類別
     public class MyAdapter extends BaseAdapter {
-
         final private LayoutInflater myInflater;
 
         public MyAdapter(Context c) {
@@ -135,9 +168,9 @@ public class DashboardFragment extends Fragment {
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
-            convertView = myInflater.inflate(R.layout.bus_stoplist_layout, null);
+            convertView = myInflater.inflate(R.layout.bus_number_list_layout, null);
 
-            // 取得 bus_stoplist_layout.xml 元件
+            // 取得 bus_number_list_layout.xml 元件
             TextView busNumber = ((TextView) convertView.findViewById(R.id.busNumber));
             TextView busRoute = ((TextView) convertView.findViewById(R.id.busRoute));
 
@@ -148,8 +181,9 @@ public class DashboardFragment extends Fragment {
             return convertView;
         }
     }
-    // 建立公車清單---結束
+    // 建立公車班次清單---結束
 
+    // 以下都是若軒原本的部分---都搬過去 BusstopsFragment 那邊去做了
     public void renew_buslist(String url){
 
     }
@@ -245,43 +279,43 @@ public class DashboardFragment extends Fragment {
         }).start();
     }
 
-    public void produce_spinner(){
-        route_spinner = getView().findViewById(R.id.route);
-        items.add("[132]中壢 - 中央大學(去程)");
-        items.add("[132]中壢 - 中央大學(返程)");
-        items.add("[133]中壢 - 中央大學(去程)");
-        items.add("[133]中壢 - 中央大學(返程)");
-        items.add("[172]中央大學 - 高鐵桃園站(去程)");
-        items.add("[172]中央大學 - 高鐵桃園站(返程)");
-        items.add("[173]中央大學 - 高鐵桃園站(去程)");
-        items.add("[173]中央大學 - 高鐵桃園站(返程)");
-        route_name="";
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
-        route_spinner.setAdapter(adapter);
-        route_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(!items.get(position).equals(route_name)){
-                    route_name=items.get(position);
-                    Log.i("[SELECT]",route_name);
-                    TextView route_tv=(TextView)getView().findViewById(R.id.route_Name);
-                    route_tv.setText(route_name);
-                    String direction="";
-                    String route_id="";
-                    direction=(route_name.split("\\(")[1]).split("\\)")[0];
-                    if(direction.equals("去程"))direction="0";
-                    else direction="1";
-                    route_id=(route_name.split("\\[")[1]).split("\\]")[0];
-                    String url = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/"+route_id+"?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%20"+direction+"&%24format=JSON";
-                    bus(url);
-                }
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
+//    public void produce_spinner(){
+//        route_spinner = getView().findViewById(R.id.route);
+//        items.add("[132]中壢 - 中央大學(去程)");
+//        items.add("[132]中壢 - 中央大學(返程)");
+//        items.add("[133]中壢 - 中央大學(去程)");
+//        items.add("[133]中壢 - 中央大學(返程)");
+//        items.add("[172]中央大學 - 高鐵桃園站(去程)");
+//        items.add("[172]中央大學 - 高鐵桃園站(返程)");
+//        items.add("[173]中央大學 - 高鐵桃園站(去程)");
+//        items.add("[173]中央大學 - 高鐵桃園站(返程)");
+//        route_name="";
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
+//        route_spinner.setAdapter(adapter);
+//        route_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if(!items.get(position).equals(route_name)){
+//                    route_name=items.get(position);
+//                    Log.i("[SELECT]",route_name);
+//                    TextView route_tv=(TextView)getView().findViewById(R.id.route_Name);
+//                    route_tv.setText(route_name);
+//                    String direction="";
+//                    String route_id="";
+//                    direction=(route_name.split("\\(")[1]).split("\\)")[0];
+//                    if(direction.equals("去程"))direction="0";
+//                    else direction="1";
+//                    route_id=(route_name.split("\\[")[1]).split("\\]")[0];
+//                    String url = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/"+route_id+"?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%20"+direction+"&%24format=JSON";
+//                    bus(url);
+//                }
+//
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+//    }
 
 
 }
