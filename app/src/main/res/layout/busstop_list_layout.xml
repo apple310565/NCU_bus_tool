@@ -12,21 +12,27 @@
             android:id="@+id/arriveTime"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle_border"
             android:gravity="center"
-            android:text="抵達時間"
             android:padding="15dp"
-            android:layout_margin="10dp"
+            android:text="抵達時間"
             android:textColor="@color/black"
-            android:textSize="15dp"
-            android:background="@drawable/circle_border" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/busStop"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_toRightOf="@+id/arriveTime"
+            android:gravity="center"
             android:text="站名"
             android:textColor="@color/black"
             android:textSize="24dp" />

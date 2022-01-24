@@ -18,6 +18,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -117,7 +119,6 @@ public class BusstopsFragment extends Fragment {
         ListView lstPrefer = (ListView)getView().findViewById(R.id.BusStop_list);
         BusstopsFragment.MyAdapter adapter = new BusstopsFragment.MyAdapter(getActivity());
         lstPrefer.setAdapter(adapter);
-
     }
     public class MyAdapter extends BaseAdapter {
 
@@ -205,21 +206,23 @@ public class BusstopsFragment extends Fragment {
                             NextBusTime=NextBusTime.substring(11, 16);
                         }
                         else{
-                            NextBusTime="末班車已駛離";
+                            NextBusTime="末班駛離";
                         }
                         if(!jsonObject.isNull("EstimateTime")){
+                            //出於嚴謹起見減掉了當前時間後最後更新時間的差額，但是雖然在模擬器上沒事，但手機上會出問題就先放棄減掉時間差額
                             Log.d("[LOG Estimates] ", jsonObject.getString("EstimateTime"));
-                            Calendar calendar = Calendar.getInstance();
-                            int hour=calendar.get(Calendar.HOUR_OF_DAY)+8;
-                            if(hour>24)hour-=24;
-                            int minute=calendar.get(Calendar.MINUTE);
-                            int second=calendar.get(Calendar.SECOND);
-                            Log.d("[Time]",String.valueOf(hour)+":"+String.valueOf(minute)+":"+String.valueOf(second));
-                            String [] tmp_calendar=(jsonObject.getString("SrcUpdateTime").substring(11,19)).split(":");
-                            double s = (Double.valueOf(tmp_calendar[0]))*3600+Double.valueOf(tmp_calendar[1])*60+Double.valueOf(tmp_calendar[2]);
-                            double s2 = Double.valueOf(hour*3600+minute*60+second);
-                            int num=(int)((jsonObject.getDouble("EstimateTime")-s2+s)/60);
-                            if(num<=1)NextBusTime="即將到站";
+                            //Calendar calendar = Calendar.getInstance();
+                            //int hour=calendar.get(Calendar.HOUR_OF_DAY)+8;
+                            //if(hour>24)hour-=24;
+                            //int minute=calendar.get(Calendar.MINUTE);
+                            //int second=calendar.get(Calendar.SECOND);
+                            //Log.d("[Time]",String.valueOf(hour)+":"+String.valueOf(minute)+":"+String.valueOf(second));
+                            //String [] tmp_calendar=(jsonObject.getString("SrcUpdateTime").substring(11,19)).split(":");
+                            //double s = (Double.valueOf(tmp_calendar[0]))*3600+Double.valueOf(tmp_calendar[1])*60+Double.valueOf(tmp_calendar[2]);
+                            //double s2 = Double.valueOf(hour*3600+minute*60+second);
+                            //int num=(int)((jsonObject.getDouble("EstimateTime")-s2+s)/60);
+                            int num=(int)((jsonObject.getDouble("EstimateTime"))/60);
+                            if(num<=2)NextBusTime="即將到站";
                             else NextBusTime=String.valueOf(num)+"分鐘";
                         }
                         else{
@@ -261,7 +264,8 @@ public class BusstopsFragment extends Fragment {
                                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
+                                            //回上一頁
+                                            // Todo => 我不太會，晚點研究完再補
                                         }
                                     })
                                     .show();
