@@ -10,12 +10,13 @@
         android:id="@+id/L1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="10dp" >
 
         <TextView
             android:id="@+id/textView1"
@@ -32,10 +33,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/L1">
+        app:layout_constraintTop_toBottomOf="@+id/L1" >
 
         <ListView
             android:id="@+id/BusStop_list1"
@@ -54,7 +56,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BusStop1">
+        app:layout_constraintTop_toBottomOf="@+id/BusStop1"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="10dp" >
 
         <TextView
             android:id="@+id/textView2"
@@ -71,6 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

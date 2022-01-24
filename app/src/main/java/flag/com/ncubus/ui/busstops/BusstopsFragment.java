@@ -91,23 +91,6 @@ public class BusstopsFragment extends Fragment {
                 TextView textview = (TextView)getView().findViewById(R.id.busNumber);
                 textview.setText(busNumber);
                 // TODO: 上面提到的問題修正了，會有那個問題應該是因為thread是獨立執行的，所以主程式不會等thread將資料改完才回傳，處理方式是把底下的東西搬到下面
-                /*
-                if (NextBusTimes.size()!=0) {
-                    //用 StopSequences 排序的序號排序
-                    List<String> tmp_stops = new ArrayList<String>();
-                    List<String> tmp_times = new ArrayList<String>();
-                    for( int i=1; i<=StopSequences.size(); i++){
-                        int index = StopSequences.indexOf(i);
-                        tmp_stops.add(Zh_tws.get(index));
-                        tmp_times.add(NextBusTimes.get(index));
-                    }
-                    ArriveTimes = tmp_times.toArray(new String[0]);
-                    BusStops = tmp_stops.toArray(new String[0]);
-                }
-                updateBuslist(); //更新站名+抵達時間
-                TextView Update_time =(TextView)getView().findViewById(R.id.Update_time);
-                Update_time.setText("最後更新時間: " + global_SrcUpdateTime);
-                */
 
             }
         });
@@ -236,7 +219,7 @@ public class BusstopsFragment extends Fragment {
                         StopSequences.add(StopSequence);
                     }
                 }
-                //Child Thread和Parents對接的通道
+                //Child Thread和 Parents對接的通道
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         dialog.dismiss();

@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment {
             public void onChanged(@Nullable String s) {
                 // Todo
                 bycycle();
+                bindClick_toMap();
 
                 dbHelper = new MySQLiteHelper(getActivity(),"Course_sub",null,1);
                 db = dbHelper.getWritableDatabase();
@@ -75,7 +76,6 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         copy_to_clipboard(db);
-
                     }
                 });
 
@@ -144,9 +144,9 @@ public class HomeFragment extends Fragment {
                         //圖書館站
                         jsonObject = jsonArray.getJSONObject(0);
                         TextView AvailableRentBikes1=(TextView)getView().findViewById(R.id.AvailableRentBikes1);
-                        AvailableRentBikes1.setText("可租借車數: "+jsonObject.getString("AvailableRentBikes"));
+                        AvailableRentBikes1.setText(jsonObject.getString("AvailableRentBikes"));
                         TextView AvailableReturnBikes1=(TextView)getView().findViewById(R.id.AvailableReturnBikes1);
-                        AvailableReturnBikes1.setText("可歸還車數: "+jsonObject.getString("AvailableReturnBikes"));
+                        AvailableReturnBikes1.setText(jsonObject.getString("AvailableReturnBikes"));
                         TextView ServiceStatus1=(TextView)getView().findViewById(R.id.ServiceStatus1);
                         if(jsonObject.getInt("ServiceStatus")==1)ServiceStatus1.setText("正常營運");
                         else if(jsonObject.getInt("ServiceStatus")==2)ServiceStatus1.setText("暫停營運");
@@ -154,9 +154,9 @@ public class HomeFragment extends Fragment {
                         //依仁堂站
                         jsonObject = jsonArray.getJSONObject(1);
                         TextView AvailableRentBikes2=(TextView)getView().findViewById(R.id.AvailableRentBikes2);
-                        AvailableRentBikes2.setText("可租借車數: "+jsonObject.getString("AvailableRentBikes"));
+                        AvailableRentBikes2.setText(jsonObject.getString("AvailableRentBikes"));
                         TextView AvailableReturnBikes2=(TextView)getView().findViewById(R.id.AvailableReturnBikes2);
-                        AvailableReturnBikes2.setText("可歸還車數: "+jsonObject.getString("AvailableReturnBikes"));
+                        AvailableReturnBikes2.setText(jsonObject.getString("AvailableReturnBikes"));
                         TextView ServiceStatus2=(TextView)getView().findViewById(R.id.ServiceStatus2);
                         if(jsonObject.getInt("ServiceStatus")==1)ServiceStatus2.setText("正常營運");
                         else if(jsonObject.getInt("ServiceStatus")==2)ServiceStatus2.setText("暫停營運");
@@ -237,6 +237,31 @@ public class HomeFragment extends Fragment {
             EasyCard_Search_url();
         }
     }
+
+    public void bindClick_toMap(){
+        TextView textview = (TextView)getView().findViewById(R.id.AvailableRentBikes1);
+        textview.setOnClickListener(getBike_map1);
+        textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes1);
+        textview.setOnClickListener(getBike_map1);
+        textview = (TextView)getView().findViewById(R.id.AvailableRentBikes2);
+        textview.setOnClickListener(getBike_map2);
+        textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes2);
+        textview.setOnClickListener(getBike_map2);
+    }
+
+    final private View.OnClickListener getBike_map1 = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d("[MAP]","圖書館的地圖~");
+        }
+    };
+
+    final private View.OnClickListener getBike_map2 = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d("[MAP]","依仁堂的地圖~");
+        }
+    };
 
 
 }

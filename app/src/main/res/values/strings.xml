@@ -6,4 +6,7 @@
     <string name="subtitle_bike">Bike</string>
     <string name="subtitle_bus">Bus</string>
     <string name="subtitle_train">Train</string>
+
+    <string name="rent_bike_title">可租借</string>
+    <string name="return_bike_title">可歸還</string>
 </resources>
