@@ -1,5 +1,6 @@
 package flag.com.ncubus.ui.bikeMap;
 
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import flag.com.ncubus.R;
 
@@ -25,6 +27,15 @@ public class bikeMapFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        getParentFragmentManager().setFragmentResultListener("map_requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                String test = bundle.getString("test");
+                TextView textview = (TextView)getView().findViewById(R.id.test_map_title);
+                textview.setText(test);
+
+            }
+        });
         return inflater.inflate(R.layout.bike_map_fragment, container, false);
     }
 

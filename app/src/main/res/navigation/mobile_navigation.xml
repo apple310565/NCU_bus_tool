@@ -31,4 +31,12 @@
         app:defaultNavHost="true" >
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_bikemap"
+        android:name="flag.com.ncubus.ui.bikeMap.bikeMapFragment"
+        android:label="@string/title_bike"
+        tools:layout="@layout/bike_map_fragment"
+        app:defaultNavHost="true" >
+    </fragment>
+
 </navigation>
