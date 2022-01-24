@@ -1,44 +1,53 @@
 package flag.com.ncubus.ui.home;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+
 
 import javax.net.ssl.HttpsURLConnection;
 
+import flag.com.ncubus.MySQLiteHelper;
 import flag.com.ncubus.R;
 import flag.com.ncubus.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
+    private SQLiteDatabase db;
+    MySQLiteHelper dbHelper;
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -58,11 +67,15 @@ public class HomeFragment extends Fragment {
                 // Todo
                 bycycle();
 
+                dbHelper = new MySQLiteHelper(getActivity(),"Course_sub",null,1);
+                db = dbHelper.getWritableDatabase();
+
                 Button sweepButton = (Button) getView().findViewById(R.id.button);
                 sweepButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EasyCard_Search_url();
+                        copy_to_clipboard(db);
+
                     }
                 });
 
@@ -156,5 +169,74 @@ public class HomeFragment extends Fragment {
 
         }).start();
     }
+    public void copy_to_clipboard(SQLiteDatabase db){
+        String code="7630361912";
+        Cursor EasyCard_Code=db.rawQuery("SELECT _Code FROM EasyCard",null);
+        EasyCard_Code.moveToFirst();
+        if(EasyCard_Code.getCount()==0){
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Message")
+                    .setMessage("請問是否要存入卡片外觀卡號，這樣以後按此按鈕時都會自動將存入的卡號貼入您的剪貼簿中。")
+                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.e("[LOG]","yes!!!!");
+
+                            LayoutInflater inflater = LayoutInflater.from(getActivity());
+                            final View v = inflater.inflate(R.layout.input_easy_card_code, null);
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle("請輸入卡片外觀卡號")
+                                    .setView(v)
+                                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.e("[LOG]","yes 2!!!!");
+                                            EditText code_tv=(EditText)v.findViewById(R.id.EasyCardCode_tv);
+                                            String Digit = "[0-9]+";
+                                            if(!code_tv.getText().toString().matches(Digit)||code_tv.getText().toString().equals("")){
+                                                Toast.makeText(getContext(), "輸入不合格式", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else{
+                                                ContentValues cv = new ContentValues();
+                                                cv.put("_Code", code_tv.getText().toString());
+                                                db.insert("EasyCard", null, cv);
+                                                Vibrator myVibrator = (Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);//取得震動
+                                                myVibrator.vibrate(50);
+                                                ClipboardManager cm  = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                                                cm.setText(code_tv.getText().toString());
+                                                Toast.makeText(getContext(), "已複製: " + cm.getText(), Toast.LENGTH_SHORT).show();
+                                                EasyCard_Search_url();
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Log.e("[LOG]","cancel");
+                                            EasyCard_Search_url();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    })
+                    .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            EasyCard_Search_url();
+                        }
+                    })
+                    .show();
+        }
+        else{
+            code = EasyCard_Code.getString(0);
+            Vibrator myVibrator = (Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);//取得震動
+            myVibrator.vibrate(50);
+            ClipboardManager cm  = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setText(code);
+            Toast.makeText(getContext(), "已複製: " + cm.getText(), Toast.LENGTH_SHORT).show();
+            EasyCard_Search_url();
+        }
+    }
+
 
 }
