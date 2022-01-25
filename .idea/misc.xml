@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/circle_border.xml" value="0.1953125" />
+        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_arrow_alt_circle_left_solid.xml" value="0.13177083333333334" />
+        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_arrow_left_solid.xml" value="0.13177083333333334" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_bicycle_solid.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_biking_solid.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_bus_solid.xml" value="0.26979166666666665" />
@@ -16,6 +18,7 @@
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/rectangle_border.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/rectangle_border_regular.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/activity_main2.xml" value="0.12" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/bike_map_fragment.xml" value="0.264" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/bus_number_list_layout.xml" value="0.17916666666666667" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/bus_stoplist_laout.xml" value="0.264" />

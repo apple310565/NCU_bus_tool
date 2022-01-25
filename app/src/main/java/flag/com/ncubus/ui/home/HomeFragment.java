@@ -1,9 +1,7 @@
 package flag.com.ncubus.ui.home;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.Service;
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,7 +10,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -25,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -45,7 +41,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import flag.com.ncubus.MapsActivity;
+import flag.com.ncubus.MainActivity2;
 import flag.com.ncubus.MySQLiteHelper;
 import flag.com.ncubus.R;
 import flag.com.ncubus.databinding.FragmentHomeBinding;
@@ -259,13 +255,10 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Log.d("[MAP]","圖書館的地圖~");
-            Bundle result = new Bundle();
-            result.putString("test", "666");
-            getParentFragmentManager().setFragmentResult("map_requestKey", result);
-            MapsActivity.setMap(24.968438302080717, 121.1943910820179);
+            sendCoordinate("24.968438302080717 121.1943910820179");
             //導向下一頁
             NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-            nc.navigate(R.id.navigation_bikemap);
+            nc.navigate(R.id.map);
         }
     };
 
@@ -273,8 +266,18 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Log.d("[MAP]","依仁堂的地圖~");
+            sendCoordinate("24.968967179889386 121.1908966");
+            //導向下一頁
+            NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+            nc.navigate(R.id.map);
         }
     };
 
+    // 從目前的 activity 傳送經緯度給 MainActivity2 (map的 activity)
+    public void sendCoordinate( String msg) {
+        Intent intent = new Intent(getActivity(), MainActivity2.class);
+        intent.putExtra("msg", msg);
+        startActivity(intent);
+    }
 
 }

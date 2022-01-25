@@ -9,7 +9,8 @@
         android:id="@+id/navigation_home"
         android:name="flag.com.ncubus.ui.home.HomeFragment"
         android:label="@string/title_bike"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -31,12 +32,10 @@
         app:defaultNavHost="true" >
     </fragment>
 
-    <fragment
-        android:id="@+id/navigation_bikemap"
-        android:name="flag.com.ncubus.ui.bikeMap.bikeMapFragment"
-        android:label="@string/title_bike"
-        tools:layout="@layout/bike_map_fragment"
-        app:defaultNavHost="true" >
-    </fragment>
+    <fragment xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </navigation>

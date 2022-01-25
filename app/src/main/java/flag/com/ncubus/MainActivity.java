@@ -1,15 +1,18 @@
 package flag.com.ncubus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,9 +24,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import flag.com.ncubus.databinding.ActivityMainBinding;
+import flag.com.ncubus.ui.home.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String msg = "send to MainActivity2";
     private ActivityMainBinding binding;
 
     @Override
@@ -53,5 +58,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 
 }
