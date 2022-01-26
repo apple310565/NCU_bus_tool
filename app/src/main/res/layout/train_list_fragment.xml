@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.trainList.trainListFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".50"
+                android:orientation="vertical"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/source_train_title"
+                    android:textColor="@color/green"
+                    android:textSize="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp" />
+                <TextView
+                    android:id="@+id/source_stop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="中壢"
+                    android:textStyle="bold"
+                    android:textColor="@color/green"
+                    android:background="@drawable/rectangle_border_regular2"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="交換"
+                    android:textColor="@color/green"
+                    android:textSize="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp" />
+                <ImageView
+                    android:id="@+id/exchange_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_exchange_alt_solid"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".50"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dest_train_title"
+                    android:textColor="@color/green"
+                    android:textSize="15dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp" />
+                <TextView
+                    android:id="@+id/dest_stop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="彰化"
+                    android:textStyle="bold"
+                    android:textColor="@color/green"
+                    android:background="@drawable/rectangle_border_regular2"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                    android:clickable="true" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ListView-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" >
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="確定" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

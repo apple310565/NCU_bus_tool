@@ -10,4 +10,7 @@
 
     <string name="rent_bike_title">可租借</string>
     <string name="return_bike_title">可歸還</string>
+
+    <string name="source_train_title">出發站</string>
+    <string name="dest_train_title">抵達站</string>
 </resources>

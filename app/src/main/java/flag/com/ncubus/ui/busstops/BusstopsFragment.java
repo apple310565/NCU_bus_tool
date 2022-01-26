@@ -84,7 +84,6 @@ public class BusstopsFragment extends Fragment {
                 String url = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/"+busNumber
                         +"?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%20"+direction.toString()+"&%24format=JSON";
                 bus(url);
-
                 // TODO: 只要能把站名和抵達時間，存到上面的 String[]就可以了
                 //  有存到，但是有神奇的bug: 點第一次沒有蓋到，但在繼續點就都有......
                 //  然後會有點當掉 -> 有時候沒有更新，比方說不管點哪個都是2分鐘前的某一班的清單
