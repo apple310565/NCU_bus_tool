@@ -99,6 +99,27 @@
         </LinearLayout>
 
         <!-- ListView-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:padding="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="horizontal" >
+            <ListView
+                android:id="@+id/area"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:scrollbars="none"
+                android:layout_marginRight="2dp" />
+            <ListView
+                android:id="@+id/stop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:scrollbars="none"
+                android:layout_marginLeft="2dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
