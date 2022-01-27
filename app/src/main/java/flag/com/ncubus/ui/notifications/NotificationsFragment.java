@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,11 +69,11 @@ public class NotificationsFragment extends Fragment {
                 //綁定所有按鈕的事件
                 btn_click_binding();
                 // TODO: 綁定搜尋，導向班次清單
-
+                search_btn_binding();
             }
         });
 
-        // TODO: 接收使用者選好的地點
+        //接收使用者選好的地點
         getParentFragmentManager().setFragmentResultListener("train_new", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
@@ -232,5 +233,28 @@ public class NotificationsFragment extends Fragment {
         datetime = String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute);
         time.setText(datetime);  //取得選定的時間指定給時間編輯框
         temp_time = datetime;
+    }
+
+    private void search_btn_binding() {
+        //綁定 submit 按鈕
+        Button btn = (Button) getView().findViewById(R.id.submit);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView source = (TextView) getView().findViewById(R.id.source_stop); String src = source.getText().toString();
+                TextView destination = (TextView) getView().findViewById(R.id.dest_stop); String dest = destination.getText().toString();
+                TextView date = (TextView) getView().findViewById(R.id.date); String str_date = date.getText().toString();
+                TextView time = (TextView) getView().findViewById(R.id.time); String str_time = time.getText().toString();
+                Bundle result = new Bundle();
+                result.putString("src", src);
+                result.putString("dest", dest);
+                result.putString("date", str_date);
+                result.putString("time", str_time);
+                getParentFragmentManager().setFragmentResult("train_search", result);
+                //導向下一頁
+                NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                nc.navigate(R.id.navigation_trainItem);
+            }
+        });
     }
 }

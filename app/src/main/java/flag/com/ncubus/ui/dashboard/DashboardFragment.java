@@ -83,7 +83,7 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                //Todo: 抵達時間那些我移動到 BusstopsFragment 那邊去做了
+                // 抵達時間那些我移動到 BusstopsFragment 那邊去做了
                 // 這個fragment主要應該只做顯示班次就好
                 addBuslist(); // 建立一開始的公車班次清單
             }

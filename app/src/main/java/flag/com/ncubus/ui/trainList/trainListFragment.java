@@ -94,7 +94,7 @@ public class trainListFragment extends Fragment {
                 //綁定按鈕事件
                 btn_binding();
 
-                // TODO: 新增地區清單+綁定地區清單點擊後會更新站名的ListView事件
+                //新增地區清單+綁定地區清單點擊後會更新站名的ListView事件
                 addArealist();
             }
         });
@@ -106,7 +106,7 @@ public class trainListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(TrainListViewModel.class);
-        // TODO: Use the ViewModel
+        // Use the ViewModel
     }
 
     public void btn_binding() {
@@ -143,7 +143,6 @@ public class trainListFragment extends Fragment {
             }
         });
 
-        // TODO: 點擊目的地或抵達地
         TextView source = (TextView) getView().findViewById(R.id.source_stop);
         source.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,7 +204,7 @@ public class trainListFragment extends Fragment {
         new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                // TODO: 被點擊時要做的事情 -> 更新站名的清單
+                //被點擊時要做的事情 -> 更新站名的清單
                 String[] stops = all_stop[position];
                 ListView lstPrefer = (ListView)getView().findViewById(R.id.stop);
                 MyAdapter adapter = new MyAdapter(getActivity(), stops);
@@ -218,7 +217,7 @@ public class trainListFragment extends Fragment {
         new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                // TODO: 被點擊時要做的事情 -> 改變目的地或抵達地的站名
+                //被點擊時要做的事情 -> 改變目的地或抵達地的站名
                 String stop_name = parent.getItemAtPosition(position).toString();
                 if(temp_setSrc==true){
                     TextView stop = ((TextView) getView().findViewById(R.id.source_stop));

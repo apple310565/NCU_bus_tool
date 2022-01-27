@@ -41,7 +41,6 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import flag.com.ncubus.MainActivity2;
 import flag.com.ncubus.MySQLiteHelper;
 import flag.com.ncubus.R;
 import flag.com.ncubus.databinding.FragmentHomeBinding;
@@ -66,7 +65,6 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                // Todo
                 bycycle();
                 bindClick_toMap();
 
@@ -255,10 +253,13 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Log.d("[MAP]","圖書館的地圖~");
-            sendCoordinate("24.968438302080717 121.1943910820179");
+            Bundle result = new Bundle();
+            result.putDouble("lat", 24.968438302080717);
+            result.putDouble("lng", 121.1943910820179);
+            getParentFragmentManager().setFragmentResult("bikemap", result);
             //導向下一頁
             NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-            nc.navigate(R.id.map);
+            nc.navigate(R.id.navigation_bikemap);
         }
     };
 
@@ -266,18 +267,14 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Log.d("[MAP]","依仁堂的地圖~");
-            sendCoordinate("24.968967179889386 121.1908966");
+            Bundle result = new Bundle();
+            result.putDouble("lat", 24.968967179889386);
+            result.putDouble("lng", 121.1908966);
+            getParentFragmentManager().setFragmentResult("bikemap", result);
             //導向下一頁
             NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-            nc.navigate(R.id.map);
+            nc.navigate(R.id.navigation_bikemap);
         }
     };
-
-    // 從目前的 activity 傳送經緯度給 MainActivity2 (map的 activity)
-    public void sendCoordinate( String msg) {
-        Intent intent = new Intent(getActivity(), MainActivity2.class);
-        intent.putExtra("msg", msg);
-        startActivity(intent);
-    }
 
 }

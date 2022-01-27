@@ -84,12 +84,12 @@ public class BusstopsFragment extends Fragment {
                 String url = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/"+busNumber
                         +"?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%20"+direction.toString()+"&%24format=JSON";
                 bus(url);
-                // TODO: 只要能把站名和抵達時間，存到上面的 String[]就可以了
-                //  有存到，但是有神奇的bug: 點第一次沒有蓋到，但在繼續點就都有......
-                //  然後會有點當掉 -> 有時候沒有更新，比方說不管點哪個都是2分鐘前的某一班的清單
+                //只要能把站名和抵達時間，存到上面的 String[]就可以了
+                //有存到，但是有神奇的bug: 點第一次沒有蓋到，但在繼續點就都有......
+                //然後會有點當掉 -> 有時候沒有更新，比方說不管點哪個都是2分鐘前的某一班的清單
                 TextView textview = (TextView)getView().findViewById(R.id.busNumber);
                 textview.setText(busNumber);
-                // TODO: 上面提到的問題修正了，會有那個問題應該是因為thread是獨立執行的，所以主程式不會等thread將資料改完才回傳，處理方式是把底下的東西搬到下面
+                //上面提到的問題修正了，會有那個問題應該是因為thread是獨立執行的，所以主程式不會等thread將資料改完才回傳，處理方式是把底下的東西搬到下面
 
             }
         });
