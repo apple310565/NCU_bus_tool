@@ -1,11 +1,15 @@
 package flag.com.ncubus.ui.trainList;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +30,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import flag.com.ncubus.MainActivity;
 import flag.com.ncubus.MySQLiteHelper;
 import flag.com.ncubus.R;
 import flag.com.ncubus.databinding.FragmentHomeBinding;
@@ -68,6 +73,7 @@ public class trainListFragment extends Fragment {
             { "漢本", "武塔", "南澳", "東澳", "永樂", "蘇澳", "蘇澳新", "新馬", "冬山", "羅東","中里","二結","宜蘭","四城","礁溪","頂埔",
                 "頭城","外澳","龜山","大溪","大里","石城" },
     };
+    private boolean temp_setSrc = true;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -79,11 +85,12 @@ public class trainListFragment extends Fragment {
                 //取得+設定原本的出發和抵達站
                 String src_old = bundle.getString("src_old");
                 String dest_old = bundle.getString("dest_old");
+                temp_setSrc = bundle.getBoolean("setSrc");
+                setStop_color();
                 TextView source = (TextView) getView().findViewById(R.id.source_stop);
                 source.setText(src_old);
                 TextView dest = (TextView) getView().findViewById(R.id.dest_stop);
                 dest.setText(dest_old);
-
                 //綁定按鈕事件
                 btn_binding();
 
@@ -135,6 +142,24 @@ public class trainListFragment extends Fragment {
                 nc.navigate(R.id.navigation_notifications);
             }
         });
+
+        // TODO: 點擊目的地或抵達地
+        TextView source = (TextView) getView().findViewById(R.id.source_stop);
+        source.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                temp_setSrc = true;
+                setStop_color();
+            }
+        });
+        TextView dest = (TextView) getView().findViewById(R.id.dest_stop);
+        dest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                temp_setSrc = false;
+                setStop_color();
+            }
+        });
     }
 
     // 建立地區清單
@@ -180,12 +205,47 @@ public class trainListFragment extends Fragment {
         new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                // TODO: 被點擊時要做的事情 -> 更新站名的新單
+                // TODO: 被點擊時要做的事情 -> 更新站名的清單
                 String[] stops = all_stop[position];
                 ListView lstPrefer = (ListView)getView().findViewById(R.id.stop);
                 MyAdapter adapter = new MyAdapter(getActivity(), stops);
                 lstPrefer.setAdapter(adapter);
+                lstPrefer.setOnItemClickListener(setStop_Listener); //綁定 click 事件
         }
     };
+
+    private ListView.OnItemClickListener setStop_Listener =
+        new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                // TODO: 被點擊時要做的事情 -> 改變目的地或抵達地的站名
+                String stop_name = parent.getItemAtPosition(position).toString();
+                if(temp_setSrc==true){
+                    TextView stop = ((TextView) getView().findViewById(R.id.source_stop));
+                    stop.setText(stop_name);
+                }
+                else{
+                    TextView stop = ((TextView) getView().findViewById(R.id.dest_stop));
+                    stop.setText(stop_name);
+                }
+        }
+    };
+
+    private void setStop_color() {
+        TextView set_stop;
+        TextView another_stop;
+        if(temp_setSrc==true) {
+            set_stop = ((TextView) getView().findViewById(R.id.source_stop));
+            another_stop = ((TextView) getView().findViewById(R.id.dest_stop));
+        }
+        else{
+            set_stop = ((TextView) getView().findViewById(R.id.dest_stop));
+            another_stop = ((TextView) getView().findViewById(R.id.source_stop));
+        }
+        Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.rectangle_border_regular2);
+        set_stop.setBackground(mDrawable);
+        mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.rectangle_border_regular);
+        another_stop.setBackground(mDrawable);
+    }
 
 }

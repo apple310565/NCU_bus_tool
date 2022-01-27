@@ -169,6 +169,7 @@ public class NotificationsFragment extends Fragment {
         });
 
         //設定目的地 or 抵達地
+        // 目的地
         TextView source = (TextView) getView().findViewById(R.id.source_stop);
         source.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +180,7 @@ public class NotificationsFragment extends Fragment {
                 Bundle result = new Bundle();
                 result.putString("src_old", src_old);
                 result.putString("dest_old", dest_old);
+                result.putBoolean("setSrc", true);
                 temp_srcstop = src_old;
                 temp_deststop = dest_old;
                 getParentFragmentManager().setFragmentResult("train_old", result);
@@ -187,7 +189,7 @@ public class NotificationsFragment extends Fragment {
                 nc.navigate(R.id.navigation_trainList);
             }
         });
-
+        //抵達地
         TextView dest = (TextView) getView().findViewById(R.id.dest_stop);
         dest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +200,7 @@ public class NotificationsFragment extends Fragment {
                 Bundle result = new Bundle();
                 result.putString("src_old", src_old);
                 result.putString("dest_old", dest_old);
+                result.putBoolean("setSrc", false);
                 temp_srcstop = src_old;
                 temp_deststop = dest_old;
                 getParentFragmentManager().setFragmentResult("train_old", result);
