@@ -14,6 +14,7 @@
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_exchange_alt_solid.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_heart_regular.xml" value="0.25416666666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.26979166666666665" />
+        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_long_arrow_alt_right_solid.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_map_marker_alt_solid.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_parking_solid.xml" value="0.26979166666666665" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/drawable/ic_subway_solid.xml" value="0.26979166666666665" />
@@ -33,8 +34,8 @@
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_dashboard_backup.xml" value="0.25364583333333335" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_home_backup.xml" value="0.21195652173913043" />
-        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_item.xml" value="0.14427083333333332" />
-        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_item_list.xml" value="0.2390625" />
+        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_item.xml" value="0.264" />
+        <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_item_list.xml" value="0.264" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_maps.xml" value="0.13541666666666666" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/fragment_notifications.xml" value="0.4" />
         <entry key="..\:/SideProject/NCU_bus_tool/app/src/main/res/layout/input_easy_card_code.xml" value="0.4" />

@@ -1,20 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/item_number"
+    android:orientation="horizontal"
+    android:padding="20dp" >
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-
-    <TextView
-        android:id="@+id/content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.5" >
+        <TextView
+            android:id="@+id/train_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="車種"/>
+        <TextView
+            android:id="@+id/train_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="車次" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.6" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/src_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="出發時間"
+                android:textStyle="bold"
+                android:textAppearance="?attr/textAppearanceListItem" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/ic_long_arrow_alt_right_solid"/>
+            <TextView
+                android:id="@+id/fest_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="抵達時間"
+                android:textStyle="bold"
+                android:textAppearance="?attr/textAppearanceListItem" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/spending_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="乘坐時間"
+            android:textAlignment="center"  />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/train_status"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="狀態"
+        android:gravity="center"
+        android:layout_weight="0.5" />
+    <TextView
+        android:id="@+id/train_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="票價"
+        android:gravity="center"
+        android:layout_weight="0.5" />
 </LinearLayout>
