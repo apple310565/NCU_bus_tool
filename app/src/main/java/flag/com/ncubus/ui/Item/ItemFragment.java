@@ -154,8 +154,8 @@ public class ItemFragment extends Fragment {
         ProgressDialog dialog = ProgressDialog.show(getContext(),"讀取中"
                 ,"請稍候",true);
         new Thread(() -> { //一次性Thread
-            HttpURLConnection connection = null;
-            String urlString = "https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/DailyTrainTimetable/OD/"+src_ID+"/to/"+dest_ID+"/"+date+"?%24top=2147483647&%24format=JSON";
+            HttpURLConnection connection = null; // 214748364
+            String urlString = "https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/DailyTrainTimetable/OD/"+src_ID+"/to/"+dest_ID+"/"+date+"?%24top=30&%24format=JSON";
             try {
                 // 初始化 URL
                 URL url = new URL(urlString); //取得連線物件
@@ -163,28 +163,6 @@ public class ItemFragment extends Fragment {
                 connection.setReadTimeout(1800);
                 connection.setConnectTimeout(1800); //模擬 Chrome 的 user agent, 因為手機的網頁內容較不完整
                 connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36");
-
-                // TODO: API header -> 目前還是失敗
-                String APPID = "a40193ebb61e45218940bef16a40f55b";
-                String APPKey = "5j472pmmPy48WXET3CtTo6XjNa0";
-                String xdate = getServerTime();
-                String SignDate = "x-date: " + xdate;
-                String Signature = "";
-                try {
-                    Signature = HMAC_SHA1.Signature(SignDate, APPKey);
-                } catch (SignatureException e1) {
-                    e1.printStackTrace();
-                }
-                String sAuth = "hmac username=\"" + APPID + "\", algorithm=\"hmac-sha1\", headers=\"x-date\", signature=\""
-                        + Signature + "\"";
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Authorization", sAuth);
-                connection.setRequestProperty("x-date", xdate);
-                connection.setRequestProperty("Accept-Encoding", "gzip");
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-                String respond = connection.getResponseCode() + " " + connection.getResponseMessage();
-                Log.d("回傳狀態:" , respond); //403 -> 被擋
 
                 // 設定開啟自動轉址
                 connection.setInstanceFollowRedirects(true);
@@ -201,7 +179,8 @@ public class ItemFragment extends Fragment {
                     bufferedReader.close();
                     inputStream.close();
                     String responseString = stringBuffer.toString();
-                    JSONArray jsonArray = new JSONArray(String.valueOf(responseString));
+                    JSONObject jsonObj = new JSONObject(String.valueOf(responseString));
+                    JSONArray jsonArray = jsonObj.getJSONArray("TrainTimetables");
                     //暫存出發時間, 抵達時間, 車次, 車種
                     // TODO: 之後要新增車況(準點或誤點), 票價
                     ArrayList<String> src_times = new ArrayList<String>();
@@ -214,6 +193,8 @@ public class ItemFragment extends Fragment {
                         String dest_time = jsonObject.getJSONArray("StopTimes").getJSONObject(1).getString("ArrivalTime");
                         String train_no = jsonObject.getJSONObject("TrainInfo").getString("TrainNo");
                         String train_type = jsonObject.getJSONObject("TrainInfo").getJSONObject("TrainTypeName").getString("Zh_tw");
+                        if(train_type.contains("("))
+                            train_type = train_type.substring(0,2);
                         Log.e("[LOG] ", train_no+"("+train_type+"): "+src_time+" -> "+dest_time );
 
                         //用出發時間排序
