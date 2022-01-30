@@ -1,9 +1,13 @@
 package flag.com.ncubus.ui.dashboard;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 //import android.database.Cursor;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 //import android.view.Gravity;
@@ -13,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -20,6 +25,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,11 +43,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import flag.com.ncubus.MySQLiteHelper;
 import flag.com.ncubus.R;
 //import flag.com.ncubus.MainActivity;
 import flag.com.ncubus.databinding.FragmentDashboardBinding;
@@ -52,24 +61,26 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 public class DashboardFragment extends Fragment {
-    Spinner route_spinner;
-    String route_name;
-    ArrayList<String> items =new ArrayList<>();
-    //static final LinearLayout out = null;
-    ArrayList<LinearLayout> OUT =new ArrayList<>();
+
     private DashboardViewModel dashboardViewModel;
     private FragmentDashboardBinding binding;
 
-    // ListView要建立的項目，會一一對應到 bus_number_list_layout裡的東西
-    // 再逐一顯示在這個 fragment的 ListView區塊裡面
-    String[] BusStops = {"132",
+    private MySQLiteHelper dbHelper ;
+    private SQLiteDatabase db;
+    private final String DB_name = "Blossom.db";
+    private final String bus_table = "FarvoriteBus";
+
+    private final String[] BusStops = {"132",
             "133",
             "172",
             "173"};
-    String[] BusRoute = {"中壢 - 中央大學",
-            "中壢 - 中央大學",
-            "中央大學 - 高鐵桃園站",
-            "中央大學 - 高鐵桃園站"};
+    private ArrayList<String> BusStops1 = new ArrayList<>();
+    private ArrayList<String> BusStops2 = new ArrayList<>();
+    Map<String, Integer> check1 = new HashMap<>();
+    Map<String, Integer> check2 = new HashMap<>();
+    final Map<String, String> BusRoutes = new HashMap<String, String>() {{
+        put("132","中壢 - 中央大學"); put("133","中壢 - 中央大學"); put("172","中央大學 - 高鐵桃園站"); put("173","中央大學 - 高鐵桃園站");
+    }};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -79,12 +90,15 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // 這邊的 onChanged 不能改，會掛掉
+        // 一定要放在這裡
+        dbHelper = new MySQLiteHelper(getContext(), DB_name,null,1);
+        db = dbHelper.getWritableDatabase();
+
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                // 抵達時間那些我移動到 BusstopsFragment 那邊去做了
-                // 這個fragment主要應該只做顯示班次就好
+                updateBusList(0);
+                updateBusList(1);
                 addBuslist(); // 建立一開始的公車班次清單
             }
         });
@@ -100,11 +114,12 @@ public class DashboardFragment extends Fragment {
     // 建立公車班次清單---開始
     public void addBuslist() {
         //把班次和路線塞進去 listView，之後路線可以考慮改方向 (e.g., 中壢-中央 & 中央-中壢)
-        // 1是去程，2是返程
+        // 1是去程(direction=0)，2是返程(direction=1)
         ListView lstPrefer1 = (ListView)getView().findViewById(R.id.BusStop_list1);
-        MyAdapter adapter = new MyAdapter(getActivity());
+        MyAdapter adapter = new MyAdapter(getActivity(), 0, BusStops1);
         lstPrefer1.setAdapter(adapter);
         ListView lstPrefer2 = (ListView)getView().findViewById(R.id.BusStop_list2);
+        adapter = new MyAdapter(getActivity(), 1, BusStops2);
         lstPrefer2.setAdapter(adapter);
 
         lstPrefer1.setOnItemClickListener(lstPrefer_Listener1); //綁定 click 事件
@@ -112,7 +127,7 @@ public class DashboardFragment extends Fragment {
     }
 
     // click listener，1是去程，2是返程
-    private ListView.OnItemClickListener lstPrefer_Listener1 =
+    private final ListView.OnItemClickListener lstPrefer_Listener1 =
         new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
@@ -129,7 +144,7 @@ public class DashboardFragment extends Fragment {
         }
     };
     // 目前先複製，和上面的差別只有 direction 的參數而已
-    private ListView.OnItemClickListener lstPrefer_Listener2 =
+    private final ListView.OnItemClickListener lstPrefer_Listener2 =
         new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
@@ -145,20 +160,24 @@ public class DashboardFragment extends Fragment {
                 nc.navigate(R.id.navigation_busstops);
         }
     };
-    // 建立公車班次清單需要的類別
+
     public class MyAdapter extends BaseAdapter {
         final private LayoutInflater myInflater;
+        final private int Direction;
+        private ArrayList<String> BusStop;
 
-        public MyAdapter(Context c) {
+        public MyAdapter(Context c, int direction, ArrayList<String> busStop) {
             myInflater = LayoutInflater.from(c);
+            Direction = direction;
+            BusStop = busStop;
         }
         @Override
         public int getCount() {
-            return BusStops.length;
+            return BusStop.size();
         }
         @Override
         public Object getItem(int position) {
-            return BusStops[position];
+            return BusStop.get(position);
         }
         @Override
         public long getItemId(int position) {
@@ -167,18 +186,86 @@ public class DashboardFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
             convertView = myInflater.inflate(R.layout.bus_number_list_layout, null);
-
-            // 取得 bus_number_list_layout.xml 元件
+            Drawable filled_heart = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_heart_solid, null);
+            Drawable regular_heart = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_heart_regular, null);
             TextView busNumber = ((TextView) convertView.findViewById(R.id.busNumber));
             TextView busRoute = ((TextView) convertView.findViewById(R.id.busRoute));
-
-            // 設定元件內容
-            busNumber.setText(BusStops[position]);
-            busRoute.setText(BusRoute[position]);
+            busNumber.setText(BusStop.get(position));
+            busRoute.setText(BusRoutes.get(BusStop.get(position)));
+            //綁定加入/移除最愛按鈕
+            ImageView heart = (ImageView) convertView.findViewById(R.id.like);
+            if(Direction==0){
+                if(check1.get(BusStop.get(position))==1)
+                    heart.setImageDrawable(filled_heart);
+            }
+            else{
+                if(check2.get(BusStop.get(position))==1)
+                    heart.setImageDrawable(filled_heart);
+            }
+            heart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(heart.getDrawable().getConstantState().equals(regular_heart.getConstantState())) {
+                        heart.setImageDrawable(filled_heart);
+                        Log.d("[Bus Test]", BusStop.get(position)+"加入最愛");
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put("_BusID", BusStop.get(position));
+                        contentValues.put("_Direction", Direction);
+                        db.insert(bus_table,null,contentValues);
+                    }
+                    else{
+                        heart.setImageDrawable(regular_heart);
+                        Log.d("[Bus Test]", BusStop.get(position)+"移除最愛");
+                        db.delete(bus_table, "_BusID = "+BusStop.get(position)+" AND _Direction = "+
+                                Integer.valueOf(Direction).toString(),null);
+                    }
+                    updateBusList(Direction);
+                    addBuslist();
+                }
+            });
 
             return convertView;
         }
     }
-    // 建立公車班次清單---結束
 
+    private void updateBusList(int direction) {
+        if(direction==0) {
+            BusStops1 = new ArrayList<>();
+            check1 = new HashMap<>();
+        }
+        else {
+            BusStops2 = new ArrayList<>();
+            check2 = new HashMap<>();
+        }
+        //找有被加到最愛的班次
+        Cursor c = db.rawQuery("SELECT * FROM " + bus_table +" WHERE _Direction = "+Integer.valueOf(direction).toString()+
+                " ORDER BY _BusID",null);
+        c.moveToFirst();
+        for(int i=0; i<c.getCount(); i++){
+            String busNumber = c.getString(0);
+            if(direction==0) {
+                BusStops1.add(busNumber);
+                check1.put(busNumber,1);
+            }
+            else {
+                BusStops2.add(c.getString(0));
+                check2.put(busNumber,1);
+            }
+            c.moveToNext();
+        }
+        for(int i=0; i<BusStops.length; i++){
+            if(direction==0 ){
+                if(BusStops1.contains(BusStops[i])==false) {
+                    BusStops1.add(BusStops[i]);
+                    check1.put(BusStops[i], 0);
+                }
+            }
+            else {
+                if(BusStops2.contains(BusStops[i])==false) {
+                    BusStops2.add(BusStops[i]);
+                    check2.put(BusStops[i], 0);
+                }
+            }
+        }
+    }
 }

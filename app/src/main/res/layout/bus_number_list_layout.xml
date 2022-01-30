@@ -34,10 +34,14 @@
             android:id="@+id/like"
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_margin="20dp"
-            android:contentDescription="like"
             android:layout_alignParentRight="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:contentDescription="like"
+            android:gravity="center"
             android:src="@drawable/ic_heart_regular" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
