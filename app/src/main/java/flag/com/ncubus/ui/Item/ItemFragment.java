@@ -1,23 +1,17 @@
 package flag.com.ncubus.ui.Item;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,40 +22,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.security.SignatureException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.net.ssl.HttpsURLConnection;
-
 import flag.com.ncubus.R;
-import flag.com.ncubus.ui.placeholder.PlaceholderContent;
 
 /**
  * A fragment representing a list of Items.
  */
 public class ItemFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    Map<String, String> IDs = new HashMap<String, String>() {{
+    private Map<String, Integer> price_map = new HashMap<>();
+    private ArrayList<String> src_times = new ArrayList<>();
+    private ArrayList<String> dest_times = new ArrayList<>();
+    private ArrayList<String> train_nos = new ArrayList<>();
+    private ArrayList<String> train_types = new ArrayList<>();
+    private ArrayList<String> spend_times = new ArrayList<>();
+    private ArrayList<String> status = new ArrayList<>();
+    private ArrayList<Integer> costs = new ArrayList<>();
+    private final Map<String, String> IDs = new HashMap<String, String>() {{
         put("基隆","0900");put("八堵","0920");put("七堵","0930");put("五堵","0950");put("汐止","0960");put("南港","0980");put("松山","0990");put("臺北","1000");put("萬華","1010");
         put("板橋","1020");put("浮洲","1030");put("樹林","1040");put("山佳","1060");put("鶯歌","1070");put("桃園","1080");put("內壢","1090");put("中壢","1100");
         put("埔心","1110");put("楊梅","1120");put("富岡","1130");put("湖口","1160");put("新豐","1170");put("竹北","1180");put("北新竹","1190");put("新竹","1210");
@@ -99,12 +80,11 @@ public class ItemFragment extends Fragment {
     public ItemFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static ItemFragment newInstance(int columnCount) {
         ItemFragment fragment = new ItemFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        // Customize parameter initialization, e.g., args.put......
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,7 +94,7 @@ public class ItemFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+                //mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
 
@@ -131,31 +111,20 @@ public class ItemFragment extends Fragment {
                 String time = bundle.getString("time");
                 Log.d("[TRAIN_TEST]",src+" -> "+dest+" at "+date+" "+time);
 
-                // TODO: 顯示所有班次，再依班次查車種，票價，準點情況之類的
-                getAlltrain(IDs.get(src), IDs.get(dest), date);
+                //顯示所有班次的出發時間,抵達時間,車種,票價
+                getPrice(IDs.get(src), IDs.get(dest));
+                getAlltrain(IDs.get(src), IDs.get(dest), date, time);
             }
         });
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS));
-        }
-        return view;
+        return inflater.inflate(R.layout.fragment_item_list, container, false);
     }
-    private void getAlltrain(String src_ID, String dest_ID, String date) {
+
+    private void getAlltrain(String src_ID, String dest_ID, String date, String selectedTime) {
         ProgressDialog dialog = ProgressDialog.show(getContext(),"讀取中"
                 ,"請稍候",true);
         new Thread(() -> { //一次性Thread
-            HttpURLConnection connection = null; // 214748364
-            String urlString = "https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/DailyTrainTimetable/OD/"+src_ID+"/to/"+dest_ID+"/"+date+"?%24top=30&%24format=JSON";
+            HttpURLConnection connection = null;
+            String urlString = "https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/DailyTrainTimetable/OD/"+src_ID+"/to/"+dest_ID+"/"+date+"?%24top=214748364&%24format=JSON";
             try {
                 // 初始化 URL
                 URL url = new URL(urlString); //取得連線物件
@@ -174,7 +143,7 @@ public class ItemFragment extends Fragment {
                     StringBuffer stringBuffer = new StringBuffer();
                     while ((tempStr = bufferedReader.readLine()) != null) {
                         stringBuffer.append(tempStr);
-                        Log.d("[LOG] ", tempStr);
+                        //Log.d("[LOG] ", tempStr);
                     }
                     bufferedReader.close();
                     inputStream.close();
@@ -182,29 +151,35 @@ public class ItemFragment extends Fragment {
                     JSONObject jsonObj = new JSONObject(String.valueOf(responseString));
                     JSONArray jsonArray = jsonObj.getJSONArray("TrainTimetables");
                     //暫存出發時間, 抵達時間, 車次, 車種
-                    // TODO: 之後要新增車況(準點或誤點), 票價
-                    ArrayList<String> src_times = new ArrayList<String>();
-                    ArrayList<String> dest_times = new ArrayList<String>();
-                    ArrayList<String> train_nos = new ArrayList<String>();
-                    ArrayList<String> train_types = new ArrayList<String>();
+                    // TODO: 車況還沒加
+                    src_times = new ArrayList<>();
+                    dest_times = new ArrayList<>();
+                    train_nos = new ArrayList<>();
+                    train_types = new ArrayList<>();
+                    spend_times = new ArrayList<>();
+                    status = new ArrayList<>();
+                    costs = new ArrayList<>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String src_time = jsonObject.getJSONArray("StopTimes").getJSONObject(0).getString("DepartureTime");
                         String dest_time = jsonObject.getJSONArray("StopTimes").getJSONObject(1).getString("ArrivalTime");
                         String train_no = jsonObject.getJSONObject("TrainInfo").getString("TrainNo");
                         String train_type = jsonObject.getJSONObject("TrainInfo").getJSONObject("TrainTypeName").getString("Zh_tw");
+                        String train_typecode = jsonObject.getJSONObject("TrainInfo").getString("TrainTypeCode");
                         if(train_type.contains("("))
                             train_type = train_type.substring(0,2);
-                        Log.e("[LOG] ", train_no+"("+train_type+"): "+src_time+" -> "+dest_time );
+                        //Log.e("[LOG] ", train_no+"("+train_type+"): "+src_time+" -> "+dest_time );
 
                         //用出發時間排序
                         boolean insert_succes = false;
                         for( int j=0; j<src_times.size(); j++){
-                            if( src_time.compareTo(src_times.get(j) )>=0){
+                            if( src_time.compareTo(src_times.get(j) )<0){
                                 src_times.add(j, src_time);
                                 dest_times.add(j, dest_time);
                                 train_nos.add(j, train_no);
                                 train_types.add(j, train_type);
+                                costs.add(j, price_map.get(train_typecode));
+                                spend_times.add(j, getSpendingTime(src_time, dest_time));
                                 insert_succes = true;
                                 break;
                             }
@@ -214,6 +189,8 @@ public class ItemFragment extends Fragment {
                             dest_times.add(dest_time);
                             train_nos.add(train_no);
                             train_types.add(train_type);
+                            costs.add(price_map.get(train_typecode));
+                            spend_times.add(getSpendingTime(src_time, dest_time));
                         }
                     }
                 }
@@ -221,7 +198,18 @@ public class ItemFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         dialog.dismiss();
-                        // TODO:怎麼更新到 recycleview
+                        RecyclerView recyclerView = (RecyclerView) getView();
+                        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(src_times, dest_times, train_nos,
+                                train_types,costs,spend_times));
+                        Log.d("Number of Train",Integer.valueOf(src_times.size()).toString());
+                        int position;
+                        for( position=0; position<src_times.size(); position++) {
+                            if (selectedTime.compareTo(src_times.get(position)) <= 0) {
+                                break;
+                            }
+                        }
+                        if(position== src_times.size()) position--;
+                        recyclerView.scrollToPosition(position);
                     }
                 });
             }
@@ -234,11 +222,62 @@ public class ItemFragment extends Fragment {
         }).start();
     }
 
-    public static String getServerTime() { //目前時間，為了加密簽章用的
-        Calendar calendar = Calendar.getInstance();
-        TimeZone tz = TimeZone.getTimeZone("Asia/Chongqing");
-        calendar.setTimeZone(tz);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.CHINA);
-        return dateFormat.format(calendar.getTime());
+    private void getPrice(String src_ID, String dest_ID) {
+        new Thread(() -> { //一次性Thread
+            HttpURLConnection connection = null;
+            String urlString = "https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/ODFare/"+src_ID+"/to/"+dest_ID+"?%24top=214748364&%24format=JSON";
+            try {
+                // 初始化 URL
+                URL url = new URL(urlString); //取得連線物件
+                connection = (HttpURLConnection) url.openConnection(); //設定 request timeout
+                connection.setReadTimeout(1800);
+                connection.setConnectTimeout(1800); //模擬 Chrome 的 user agent, 因為手機的網頁內容較不完整
+                connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36");
+                // 設定開啟自動轉址
+                connection.setInstanceFollowRedirects(true);
+                // 若要求回傳 200 OK 表示成功取得網頁內容
+                if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) { // 讀取網頁內容
+                    InputStream inputStream = connection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    String tempStr;
+                    StringBuffer stringBuffer = new StringBuffer();
+                    while ((tempStr = bufferedReader.readLine()) != null) {
+                        stringBuffer.append(tempStr);
+                        Log.d("[LOG] ", tempStr);
+                    }
+                    bufferedReader.close();
+                    inputStream.close();
+                    String responseString = stringBuffer.toString();
+                    JSONObject jsonObj = new JSONObject(String.valueOf(responseString));
+                    JSONArray jsonArray = jsonObj.getJSONArray("ODFares");
+                    //暫存出發時間, 抵達時間, 車次, 車種
+                    // TODO: 之後要新增車況(準點或誤點), 票價
+                    price_map = new HashMap<>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String train_type = Integer.valueOf(jsonObject.getInt("TrainType")).toString();
+                        int price = jsonObject.getJSONArray("Fares").getJSONObject(0).getInt("Price");
+                        if(price_map.containsKey(train_type)==true && price_map.get(train_type)<=price)
+                            continue;
+                        else{
+                            price_map.put(train_type, price);
+                        }
+                    }
+                }
+            }
+            catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private String getSpendingTime(String src_time, String dest_time) {
+        final int total_min = Integer.valueOf(dest_time.substring(0,2))*60+Integer.valueOf(dest_time.substring(3))-Integer.valueOf(src_time.substring(0,2))*60-Integer.valueOf(src_time.substring(3));
+        final int h = total_min/60;
+        final int m = total_min%60;
+        return Integer.valueOf(h).toString()+"時"+Integer.valueOf(m).toString()+"分";
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Lower rectangle (border color) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/teal_700" />
+        </shape>
+    </item>
+
+    <!-- Upper rectangle (background color) -->
+    <item android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+</layer-list>
