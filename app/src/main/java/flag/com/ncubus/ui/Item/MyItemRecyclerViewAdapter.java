@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         String type = train_types.get(position);
-        if(type=="自強" || type=="普悠瑪") {
+        if(type.equals("自強") || type.equals("普悠瑪")) {
             holder.trainTypeView.setTextColor(Color.parseColor("#B96C58"));
             holder.trainNumberView.setTextColor(Color.parseColor("#B96C58"));
         }
-        else if(type=="莒光" || type=="復興" || type=="太魯閣") {
+        else if(type.equals("莒光") || type.equals("復興") || type.equals("太魯閣")) {
             holder.trainTypeView.setTextColor(Color.parseColor("#F2994A"));
             holder.trainNumberView.setTextColor(Color.parseColor("#F2994A"));
         }
