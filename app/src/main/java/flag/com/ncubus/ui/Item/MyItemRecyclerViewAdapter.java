@@ -1,11 +1,16 @@
 package flag.com.ncubus.ui.Item;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import flag.com.ncubus.MainActivity;
+import flag.com.ncubus.R;
 import flag.com.ncubus.databinding.FragmentItemBinding;
 
 import java.util.ArrayList;
@@ -39,6 +44,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        String type = train_types.get(position);
+        if(type=="自強" || type=="普悠瑪") {
+            holder.trainTypeView.setTextColor(Color.parseColor("#B96C58"));
+            holder.trainNumberView.setTextColor(Color.parseColor("#B96C58"));
+        }
+        else if(type=="莒光" || type=="復興" || type=="太魯閣") {
+            holder.trainTypeView.setTextColor(Color.parseColor("#F2994A"));
+            holder.trainNumberView.setTextColor(Color.parseColor("#F2994A"));
+        }
+        else{ //區間, 區間快
+            holder.trainTypeView.setTextColor(Color.parseColor("#438C6F"));
+            holder.trainNumberView.setTextColor(Color.parseColor("#438C6F"));
+        }
         holder.trainTypeView.setText(train_types.get(position));
         holder.trainNumberView.setText(train_nos.get(position));
         holder.srcTimeView.setText(src_times.get(position));

@@ -4,7 +4,7 @@
 
     <!-- View background color -->
     <solid
-        android:color="@color/bg_green"
+        android:color="@color/white"
         android:height="50dp" >
     </solid>
 

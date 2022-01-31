@@ -6,9 +6,10 @@
     android:name="flag.com.ncubus.ui.Item.ItemFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginBottom="120dp"
-    android:layout_marginTop="20dp"
+    android:paddingHorizontal="10dp"
+    android:paddingBottom="120dp"
+    android:paddingTop="20dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.Item.ItemFragment"
-    tools:listitem="@layout/fragment_item" />
+    tools:listitem="@layout/fragment_item"
+    android:background="@color/rice_white"/>

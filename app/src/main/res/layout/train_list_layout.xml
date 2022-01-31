@@ -12,10 +12,12 @@
             android:id="@+id/area_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:text="地區"
-            android:textColor="@color/black"
+            android:textColor="@color/main_gray"
             android:textSize="20dp" />
 
         <ImageView

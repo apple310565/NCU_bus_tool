@@ -6,8 +6,8 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="70dp" >
-
+        android:layout_height="70dp"
+        android:paddingLeft="10dp">
         <TextView
             android:id="@+id/busNumber"
             android:layout_width="wrap_content"
@@ -16,8 +16,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="公車班次"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textColor="@color/main_black"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/busRoute"
@@ -27,7 +28,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="11dp"
             android:text="公車路線"
-            android:textColor="@color/black"
+            android:textColor="@color/main_black"
             android:textSize="16dp" />
 
         <ImageView

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.dashboard.DashboardFragment"
+    android:background="@color/rice_white">
 
     <LinearLayout
         android:id="@+id/L1"
@@ -24,6 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="去程"
+            android:textStyle="bold"
+            android:textColor="@color/main_black"
             android:textSize="25sp" />
 
     </LinearLayout>
@@ -42,9 +45,10 @@
         <ListView
             android:id="@+id/BusStop_list1"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="210dp"
             android:layout_margin="8dp"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:background="@drawable/rectangle_round_border"/>
     </LinearLayout>
 
     <LinearLayout
@@ -66,6 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="返程"
+            android:textStyle="bold"
+            android:textColor="@color/main_black"
             android:textSize="25sp" />
 
     </LinearLayout>
@@ -85,9 +91,10 @@
         <ListView
             android:id="@+id/BusStop_list2"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="210dp"
             android:layout_margin="8dp"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:background="@drawable/rectangle_round_border"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

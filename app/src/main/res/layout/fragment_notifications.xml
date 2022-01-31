@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.notifications.NotificationsFragment">
+    tools:context=".ui.notifications.NotificationsFragment"
+    android:background="@color/rice_white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/source_train_title"
-                        android:textColor="@color/green"
+                        android:textColor="@color/hover_green"
                         android:textSize="15dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="10dp" />
@@ -43,7 +44,7 @@
                         android:layout_height="match_parent"
                         android:text="中壢"
                         android:textStyle="bold"
-                        android:textColor="@color/green"
+                        android:textColor="@color/main_black"
                         android:background="@drawable/rectangle_border_regular2"
                         android:textSize="25dp"
                         android:textAlignment="center"
@@ -60,7 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="交換"
-                        android:textColor="@color/green"
+                        android:textColor="@color/hover_green"
                         android:textSize="15dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="10dp" />
@@ -85,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dest_train_title"
-                        android:textColor="@color/green"
+                        android:textColor="@color/hover_green"
                         android:textSize="15dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="10dp" />
@@ -95,7 +96,7 @@
                         android:layout_height="match_parent"
                         android:text="彰化"
                         android:textStyle="bold"
-                        android:textColor="@color/green"
+                        android:textColor="@color/main_black"
                         android:background="@drawable/rectangle_border_regular2"
                         android:textSize="25dp"
                         android:textAlignment="center"
@@ -114,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="請選擇日期時間"
-                android:textColor="@color/green"
+                android:textColor="@color/hover_green"
                 android:textSize="15dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp" />
@@ -130,12 +131,12 @@
                     android:layout_weight="0.35"
                     android:text="2022/01/01"
                     android:textStyle="bold"
-                    android:textColor="@color/green"
+                    android:textColor="@color/main_black"
                     android:background="@drawable/rectangle_border_regular2"
                     android:textSize="20dp"
                     android:textAlignment="center"
                     android:padding="10dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginRight="10dp"
                     android:clickable="true" />
                 <TextView
                     android:id="@+id/time"
@@ -144,13 +145,13 @@
                     android:layout_weight="0.45"
                     android:text="00:00"
                     android:textStyle="bold"
-                    android:textColor="@color/green"
+                    android:textColor="@color/main_black"
                     android:background="@drawable/rectangle_border_regular2"
                     android:textSize="20dp"
                     android:textAlignment="center"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="8dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginRight="10dp"
                     android:clickable="true" />
                 <TextView
                     android:id="@+id/setnow_btn"
@@ -159,7 +160,7 @@
                     android:layout_weight="0.5"
                     android:text="現在"
                     android:textStyle="bold"
-                    android:textColor="@color/green"
+                    android:textColor="@color/hover_green"
                     android:background="@drawable/rectangle_border_regular2"
                     android:textSize="15dp"
                     android:textAlignment="center"

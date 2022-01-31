@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.trainList.trainListFragment">
-
+    tools:context=".ui.trainList.trainListFragment"
+    android:background="@color/rice_white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/source_train_title"
-                    android:textColor="@color/green"
+                    android:textColor="@color/hover_green"
                     android:textSize="15dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp" />
@@ -37,7 +37,7 @@
                     android:layout_height="match_parent"
                     android:text="中壢"
                     android:textStyle="bold"
-                    android:textColor="@color/green"
+                    android:textColor="@color/main_black"
                     android:background="@drawable/rectangle_border_regular"
                     android:textSize="25dp"
                     android:textAlignment="center"
@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="交換"
-                    android:textColor="@color/green"
+                    android:textColor="@color/hover_green"
                     android:textSize="15dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp" />
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dest_train_title"
-                    android:textColor="@color/green"
+                    android:textColor="@color/hover_green"
                     android:textSize="15dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp" />
@@ -89,7 +89,7 @@
                     android:layout_height="match_parent"
                     android:text="彰化"
                     android:textStyle="bold"
-                    android:textColor="@color/green"
+                    android:textColor="@color/main_black"
                     android:background="@drawable/rectangle_border_regular"
                     android:textSize="25dp"
                     android:textAlignment="center"
@@ -111,14 +111,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:scrollbars="none"
-                android:layout_marginRight="2dp" />
+                android:layout_marginRight="5dp"
+                android:background="@drawable/rectangle_border"/>
             <ListView
                 android:id="@+id/stop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:scrollbars="none"
-                android:layout_marginLeft="2dp" />
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/rectangle_border"/>
         </LinearLayout>
 
         <LinearLayout

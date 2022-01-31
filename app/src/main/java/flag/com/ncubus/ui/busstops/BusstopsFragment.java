@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -131,6 +133,14 @@ public class BusstopsFragment extends Fragment {
 
             // 設定元件內容
             arriveTime.setText(ArriveTimes[position]);
+            if(ArriveTimes[position]=="末班駛離"){
+                arriveTime.setBackgroundResource(R.drawable.circle_border_solid_gray);
+                arriveTime.setTextColor(getResources().getColor(R.color.main_gray));
+            }
+            else if(ArriveTimes[position]=="即將到站"){
+                arriveTime.setBackgroundResource(R.drawable.circle_border_solid);
+                arriveTime.setTextColor(getResources().getColor(R.color.white));
+            }
             busStop.setText(BusStops[position]);
 
             return convertView;

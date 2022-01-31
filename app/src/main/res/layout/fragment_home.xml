@@ -5,7 +5,8 @@
     android:id="@+id/test_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.home.HomeFragment"
+    android:background="@color/rice_white">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -29,7 +30,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="中央大學圖書館"
+                android:textSize="25sp"
                 android:layout_marginLeft="5dp"
+                android:textColor="@color/main_black"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <LinearLayout
@@ -61,7 +65,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/rent_bike_title"
-                            android:textColor="@color/green"
+                            android:textColor="@color/hover_green"
                             android:textSize="15dp"  />
                     </LinearLayout>
                     <TextView
@@ -72,6 +76,7 @@
                         android:text="30"
                         android:textSize="@dimen/bike_number_textsize"
                         android:textStyle="bold"
+                        android:textColor="@color/main_black"
                         android:textAlignment="center"
                         android:clickable="true" />
                 </LinearLayout>
@@ -99,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/return_bike_title"
-                            android:textColor="@color/green"
+                            android:textColor="@color/hover_green"
                             android:textSize="15dp"  />
                     </LinearLayout>
                     <TextView
@@ -110,6 +115,7 @@
                         android:text="15"
                         android:textSize="@dimen/bike_number_textsize"
                         android:textStyle="bold"
+                        android:textColor="@color/main_black"
                         android:textAlignment="center"
                         android:clickable="true" />
                 </LinearLayout>
@@ -127,7 +133,7 @@
                     android:text="正常營運"
                     android:background="@drawable/rectangle_border_regular"
                     android:padding="5dp"
-                    android:textColor="@color/teal_700" />
+                    android:textColor="@color/main_black" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,6 +151,7 @@
                         android:id="@+id/PlaceDiff1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/main_gray"
                         android:text="距離 - - - 公尺" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -166,6 +173,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="中央大學依仁堂"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/main_black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <LinearLayout
@@ -200,7 +210,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/rent_bike_title"
-                            android:textColor="@color/green"
+                            android:textColor="@color/hover_green"
                             android:textSize="15dp" />
                     </LinearLayout>
 
@@ -213,6 +223,7 @@
                         android:textAlignment="center"
                         android:textSize="@dimen/bike_number_textsize"
                         android:textStyle="bold"
+                        android:textColor="@color/main_black"
                         android:clickable="true" />
                 </LinearLayout>
 
@@ -242,7 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/return_bike_title"
-                            android:textColor="@color/green"
+                            android:textColor="@color/hover_green"
                             android:textSize="15dp" />
                     </LinearLayout>
 
@@ -255,6 +266,7 @@
                         android:textAlignment="center"
                         android:textSize="@dimen/bike_number_textsize"
                         android:textStyle="bold"
+                        android:textColor="@color/main_black"
                         android:clickable="true" />
                 </LinearLayout>
             </LinearLayout>
@@ -272,7 +284,7 @@
                     android:background="@drawable/rectangle_border_regular"
                     android:padding="5dp"
                     android:text="正常營運"
-                    android:textColor="@color/teal_700" />
+                    android:textColor="@color/main_black" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -294,6 +306,7 @@
                             android:id="@+id/PlaceDiff2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/main_gray"
                             android:text="距離 - - - 公尺" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -307,7 +320,8 @@
             android:text="租用YouBike需持電子票證（悠遊卡、一卡通）於官網或各站的KIOSK自動服務機註冊會員，即可靠卡感應租車。目前桃園市YouBike會員租用費率為前30分鐘內免費；每2小時內每30分鐘10元；2至4小時內每30分鐘20元；4小時以上，每30分鐘40元。"
             android:layout_marginHorizontal="25dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:textColor="@color/main_gray"/>
 
         <LinearLayout
             android:layout_width="match_parent"

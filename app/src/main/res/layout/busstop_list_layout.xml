@@ -18,10 +18,11 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/circle_border"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="1dp"
             android:text="抵達時間"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textColor="@color/hover_green"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/busStop"
@@ -34,7 +35,7 @@
             android:layout_toRightOf="@+id/arriveTime"
             android:gravity="start|center_vertical"
             android:text="站名"
-            android:textColor="@color/black"
+            android:textColor="@color/main_black"
             android:textSize="20dp" />
 
     </RelativeLayout>

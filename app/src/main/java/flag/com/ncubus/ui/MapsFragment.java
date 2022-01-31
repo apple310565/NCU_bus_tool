@@ -2,6 +2,7 @@ package flag.com.ncubus.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
@@ -55,7 +56,8 @@ public class MapsFragment extends Fragment {
                 //取得+設定原本的出發和抵達站
                 lat = bundle.getDouble("lat");
                 lng = bundle.getDouble("lng");
-
+                String place = bundle.getString("place");
+                ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle(place);
             }
         });
         return inflater.inflate(R.layout.fragment_maps, container, false);

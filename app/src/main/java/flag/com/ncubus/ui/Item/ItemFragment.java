@@ -1,9 +1,11 @@
 package flag.com.ncubus.ui.Item;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
+
+import flag.com.ncubus.MainActivity;
 import flag.com.ncubus.R;
 
 /**
@@ -114,6 +118,7 @@ public class ItemFragment extends Fragment {
                 //顯示所有班次的出發時間,抵達時間,車種,票價
                 getPrice(IDs.get(src), IDs.get(dest));
                 getAlltrain(IDs.get(src), IDs.get(dest), date, time);
+                ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle(src+" → "+dest);
             }
         });
         return inflater.inflate(R.layout.fragment_item_list, container, false);
@@ -251,7 +256,7 @@ public class ItemFragment extends Fragment {
                     JSONObject jsonObj = new JSONObject(String.valueOf(responseString));
                     JSONArray jsonArray = jsonObj.getJSONArray("ODFares");
                     //暫存出發時間, 抵達時間, 車次, 車種
-                    // TODO: 之後要新增車況(準點或誤點), 票價
+                    // TODO: 新增車況(準點或誤點)
                     price_map = new HashMap<>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -280,4 +285,5 @@ public class ItemFragment extends Fragment {
         final int m = total_min%60;
         return Integer.valueOf(h).toString()+"時"+Integer.valueOf(m).toString()+"分";
     }
+
 }

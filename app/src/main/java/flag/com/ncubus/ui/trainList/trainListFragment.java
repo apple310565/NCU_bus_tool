@@ -241,9 +241,9 @@ public class trainListFragment extends Fragment {
             set_stop = ((TextView) getView().findViewById(R.id.dest_stop));
             another_stop = ((TextView) getView().findViewById(R.id.source_stop));
         }
-        Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.rectangle_border_regular2);
+        Drawable mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.rectangle_border_regular);
         set_stop.setBackground(mDrawable);
-        mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.rectangle_border_regular);
+        mDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.rectangle_border_regular2);
         another_stop.setBackground(mDrawable);
     }
 

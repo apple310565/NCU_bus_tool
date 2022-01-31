@@ -52,8 +52,9 @@
         android:id="@+id/navigation_trainItem"
         android:name="flag.com.ncubus.ui.Item.ItemFragment"
         android:label="@string/title_train"
-        tools:layout="@layout/fragment_item"
-        app:defaultNavHost="true" >
+        tools:layout="@layout/fragment_item_list"
+        app:defaultNavHost="true"
+        android:background="@color/rice_white" >
     </fragment>
 
 </navigation>

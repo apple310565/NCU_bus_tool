@@ -10,4 +10,13 @@
     <color name="gray">#ADADAD</color>
     <color name="bg_green">#E5F6E4</color>
     <color name="green">#40724C</color>
+    
+    <color name="rice_white">#f2ecdc</color>
+    <color name="main_green">#61A68A</color>
+    <color name="hover_green">#438C6F</color>
+    <color name="red">#B96C58</color>
+    <color name="main_gray">#666666</color>
+    <color name="main_black">#333333</color>
+    <color name="yellow">#F2994A</color>
+    <color name="grey">#CCCCCC</color>
 </resources>

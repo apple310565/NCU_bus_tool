@@ -148,9 +148,18 @@ public class HomeFragment extends Fragment {
                         TextView AvailableReturnBikes1=(TextView)getView().findViewById(R.id.AvailableReturnBikes1);
                         AvailableReturnBikes1.setText(jsonObject.getString("AvailableReturnBikes"));
                         TextView ServiceStatus1=(TextView)getView().findViewById(R.id.ServiceStatus1);
-                        if(jsonObject.getInt("ServiceStatus")==1)ServiceStatus1.setText("正常營運");
-                        else if(jsonObject.getInt("ServiceStatus")==2)ServiceStatus1.setText("暫停營運");
-                        else ServiceStatus1.setText("停止營運");
+                        if(jsonObject.getInt("ServiceStatus")==1){
+                            ServiceStatus1.setText("正常營運");
+                            ServiceStatus1.setBackgroundResource(R.drawable.rectangle_border_regular);
+                        }
+                        else if(jsonObject.getInt("ServiceStatus")==2){
+                            ServiceStatus1.setText("暫停營運");
+                            ServiceStatus1.setBackgroundResource(R.drawable.rectangle_border_regular_yellow);
+                        }
+                        else {
+                            ServiceStatus1.setText("停止營運");
+                            ServiceStatus1.setBackgroundResource(R.drawable.rectangle_border_regular_grey);
+                        }
                         //依仁堂站
                         jsonObject = jsonArray.getJSONObject(1);
                         TextView AvailableRentBikes2=(TextView)getView().findViewById(R.id.AvailableRentBikes2);
@@ -158,9 +167,18 @@ public class HomeFragment extends Fragment {
                         TextView AvailableReturnBikes2=(TextView)getView().findViewById(R.id.AvailableReturnBikes2);
                         AvailableReturnBikes2.setText(jsonObject.getString("AvailableReturnBikes"));
                         TextView ServiceStatus2=(TextView)getView().findViewById(R.id.ServiceStatus2);
-                        if(jsonObject.getInt("ServiceStatus")==1)ServiceStatus2.setText("正常營運");
-                        else if(jsonObject.getInt("ServiceStatus")==2)ServiceStatus2.setText("暫停營運");
-                        else ServiceStatus2.setText("停止營運");
+                        if(jsonObject.getInt("ServiceStatus")==1){
+                            ServiceStatus2.setText("正常營運");
+                            ServiceStatus1.setBackgroundResource(R.drawable.rectangle_border_regular);
+                        }
+                        else if(jsonObject.getInt("ServiceStatus")==2){
+                            ServiceStatus2.setText("暫停營運");
+                            ServiceStatus1.setBackgroundResource(R.drawable.rectangle_border_regular_yellow);
+                        }
+                        else {
+                            ServiceStatus2.setText("停止營運");
+                            ServiceStatus1.setBackgroundResource(R.drawable.rectangle_border_regular_grey);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -256,6 +274,7 @@ public class HomeFragment extends Fragment {
             Bundle result = new Bundle();
             result.putDouble("lat", 24.968438302080717);
             result.putDouble("lng", 121.1943910820179);
+            result.putString("place", "中央大學圖書館");
             getParentFragmentManager().setFragmentResult("bikemap", result);
             //導向下一頁
             NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
@@ -270,6 +289,7 @@ public class HomeFragment extends Fragment {
             Bundle result = new Bundle();
             result.putDouble("lat", 24.968967179889386);
             result.putDouble("lng", 121.1908966);
+            result.putString("place", "中央大學依仁堂");
             getParentFragmentManager().setFragmentResult("bikemap", result);
             //導向下一頁
             NavController nc = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
