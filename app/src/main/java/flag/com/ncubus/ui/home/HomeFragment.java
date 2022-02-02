@@ -1,7 +1,6 @@
 package flag.com.ncubus.ui.home;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.Service;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,13 +10,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -218,8 +217,6 @@ public class HomeFragment extends Fragment {
                                                 ContentValues cv = new ContentValues();
                                                 cv.put("_Code", code_tv.getText().toString());
                                                 db.insert("EasyCard", null, cv);
-                                                Vibrator myVibrator = (Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);//取得震動
-                                                myVibrator.vibrate(50);
                                                 ClipboardManager cm  = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                                                 cm.setText(code_tv.getText().toString());
                                                 Toast.makeText(getContext(), "已複製: " + cm.getText(), Toast.LENGTH_SHORT).show();
@@ -247,8 +244,6 @@ public class HomeFragment extends Fragment {
         }
         else{
             code = EasyCard_Code.getString(0);
-            Vibrator myVibrator = (Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);//取得震動
-            myVibrator.vibrate(50);
             ClipboardManager cm  = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setText(code);
             Toast.makeText(getContext(), "已複製: " + cm.getText(), Toast.LENGTH_SHORT).show();
@@ -257,14 +252,18 @@ public class HomeFragment extends Fragment {
     }
 
     public void bindClick_toMap(){
-        TextView textview = (TextView)getView().findViewById(R.id.AvailableRentBikes1);
-        textview.setOnClickListener(getBike_map1);
-        textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes1);
-        textview.setOnClickListener(getBike_map1);
-        textview = (TextView)getView().findViewById(R.id.AvailableRentBikes2);
-        textview.setOnClickListener(getBike_map2);
-        textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes2);
-        textview.setOnClickListener(getBike_map2);
+        //TextView textview = (TextView)getView().findViewById(R.id.AvailableRentBikes1);
+        //textview.setOnClickListener(getBike_map1);
+        //textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes1);
+        //textview.setOnClickListener(getBike_map1);
+        LinearLayout layout = (LinearLayout)getView().findViewById(R.id.stop001);
+        layout.setOnClickListener(getBike_map1);
+        //textview = (TextView)getView().findViewById(R.id.AvailableRentBikes2);
+        //textview.setOnClickListener(getBike_map2);
+        //textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes2);
+        //textview.setOnClickListener(getBike_map2);
+        layout = (LinearLayout)getView().findViewById(R.id.stop002);
+        layout.setOnClickListener(getBike_map2);
     }
 
     final private View.OnClickListener getBike_map1 = new View.OnClickListener() {
