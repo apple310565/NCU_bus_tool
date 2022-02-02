@@ -72,13 +72,11 @@
                             android:textColor="@color/hover_green"
                             android:textSize="15dp" />
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/AvailableRentBikes1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:clickable="true"
                         android:text="30"
                         android:textAlignment="center"
                         android:textColor="@color/main_black"
@@ -121,7 +119,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:clickable="true"
                         android:text="15"
                         android:textAlignment="center"
                         android:textColor="@color/main_black"
@@ -234,7 +231,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:clickable="true"
                         android:text="30"
                         android:textAlignment="center"
                         android:textColor="@color/main_black"
@@ -277,7 +273,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:clickable="true"
                         android:text="15"
                         android:textAlignment="center"
                         android:textColor="@color/main_black"

@@ -6,8 +6,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +23,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +55,13 @@ import flag.com.ncubus.R;
 import flag.com.ncubus.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean locationPermissionGranted;
+    private Location lastKnownLocation;
+    private double cur_lat = 0;
+    private double cur_lng = 0;
+
     private SQLiteDatabase db;
     MySQLiteHelper dbHelper;
 
@@ -54,6 +71,8 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -77,7 +96,23 @@ public class HomeFragment extends Fragment {
                         copy_to_clipboard(db);
                     }
                 });
-
+                getLocationPermission();
+                // 目前位置和圖書館站的距離
+                getDeviceLocation(24.968438302080717,121.1943910820179);
+                double dis = distance(24.968438302080717,121.1943910820179, cur_lat, cur_lng)*1000;
+                TextView AvailableRentBikes1=(TextView)getView().findViewById(R.id.PlaceDiff1);
+                if( dis != 0)
+                    AvailableRentBikes1.setText("距離 "+Integer.valueOf((int)dis).toString()+" 公尺");
+                else
+                    AvailableRentBikes1.setText("距離 - - - 公尺");
+                // 目前位置和依仁堂站的距離
+                getDeviceLocation(24.968967179889386,121.1908966);
+                dis = distance(24.968967179889386,121.1908966, cur_lat, cur_lng)*1000;
+                TextView AvailableRentBikes2=(TextView)getView().findViewById(R.id.PlaceDiff2);
+                if( dis != 0)
+                    AvailableRentBikes2.setText("距離 "+Integer.valueOf((int)dis).toString()+" 公尺");
+                else
+                    AvailableRentBikes2.setText("距離 - - - 公尺");
             }
         });
         return root;
@@ -252,16 +287,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void bindClick_toMap(){
-        //TextView textview = (TextView)getView().findViewById(R.id.AvailableRentBikes1);
-        //textview.setOnClickListener(getBike_map1);
-        //textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes1);
-        //textview.setOnClickListener(getBike_map1);
         LinearLayout layout = (LinearLayout)getView().findViewById(R.id.stop001);
         layout.setOnClickListener(getBike_map1);
-        //textview = (TextView)getView().findViewById(R.id.AvailableRentBikes2);
-        //textview.setOnClickListener(getBike_map2);
-        //textview = (TextView)getView().findViewById(R.id.AvailableReturnBikes2);
-        //textview.setOnClickListener(getBike_map2);
         layout = (LinearLayout)getView().findViewById(R.id.stop002);
         layout.setOnClickListener(getBike_map2);
     }
@@ -295,5 +322,66 @@ public class HomeFragment extends Fragment {
             nc.navigate(R.id.navigation_bikemap);
         }
     };
+
+    private void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    private void getDeviceLocation(double default_lat, double default_lng) {
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+                            if (lastKnownLocation != null) {
+                                cur_lat = lastKnownLocation.getLatitude();
+                                cur_lng = lastKnownLocation.getLongitude();
+                            }
+                        } else {
+                            Log.d("[MAP TAG]", "Current location is null. Using defaults.");
+                            Log.e("[MAP TAG]", "Exception: %s", task.getException());
+                            cur_lat = default_lat;
+                            cur_lng = default_lng;
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage(), e);
+        }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
 
 }
