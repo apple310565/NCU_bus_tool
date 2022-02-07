@@ -96,25 +96,15 @@ public class HomeFragment extends Fragment {
                         copy_to_clipboard(db);
                     }
                 });
+
                 getLocationPermission();
-                // 目前位置和圖書館站的距離
-                getDeviceLocation(24.968438302080717,121.1943910820179);
-                Log.e("[LOG dis]","得到位置");
-                double dis = distance(24.968438302080717,121.1943910820179, cur_lat, cur_lng)*1000;
-                Log.d("[LOG dis]",String.valueOf(cur_lat)+", "+String.valueOf(cur_lng));
+
                 TextView AvailableRentBikes1=(TextView)getView().findViewById(R.id.PlaceDiff1);
-                if( dis != 0)
-                    AvailableRentBikes1.setText("距離 "+Integer.valueOf((int)dis).toString()+" 公尺");
-                else
-                    AvailableRentBikes1.setText("距離 - - - 公尺");
-                // 目前位置和依仁堂站的距離
-                getDeviceLocation(24.968967179889386,-121.1908966);
-                dis = distance(24.968967179889386,-121.1908966, cur_lat, cur_lng)*1000;
+                AvailableRentBikes1.setText("距離 - - - 公尺");
                 TextView AvailableRentBikes2=(TextView)getView().findViewById(R.id.PlaceDiff2);
-                if( dis != 0)
-                    AvailableRentBikes2.setText("距離 "+Integer.valueOf((int)dis).toString()+" 公尺");
-                else
-                    AvailableRentBikes2.setText("距離 - - - 公尺");
+                AvailableRentBikes2.setText("距離 - - - 公尺");
+
+                getDeviceLocation(24.968438302080717,121.1943910820179);
             }
         });
         return root;
