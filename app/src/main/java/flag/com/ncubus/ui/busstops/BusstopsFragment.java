@@ -13,8 +13,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -251,13 +253,19 @@ public class BusstopsFragment extends Fragment {
                             updateBuslist(); //更新站名+抵達時間
                             Update_time.setText("最後更新時間: None");
                             new AlertDialog.Builder(getActivity())
-                                    .setTitle("提醒")
-                                    .setMessage("此班公車的末班車已過!")
-                                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    .setTitle("Message")
+                                    .setMessage("此IP今日的的API呼叫次數用盡，請問是否要前往桃園公車動態資訊網查看公車動態?")
+                                    .setNegativeButton("no", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            //回上一頁
-                                            // Todo => 我不太會，晚點研究完再補
+                                        }
+                                    })
+                                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Uri uri = Uri.parse("https://ebus.tycg.gov.tw/ebus");//要跳轉的網址
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                            startActivity(intent);
                                         }
                                     })
                                     .show();
