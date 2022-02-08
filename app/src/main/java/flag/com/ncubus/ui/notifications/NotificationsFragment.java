@@ -68,7 +68,7 @@ public class NotificationsFragment extends Fragment {
                 }
                 //綁定所有按鈕的事件
                 btn_click_binding();
-                // TODO: 綁定搜尋，導向班次清單
+                //綁定搜尋，導向班次清單
                 search_btn_binding();
             }
         });

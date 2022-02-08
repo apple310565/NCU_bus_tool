@@ -50,6 +50,7 @@ public class MapsFragment extends Fragment {
     private double lng = 0;
     private double cur_lat = 0;
     private double cur_lng = 0;
+    private String place_name = "";
 
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -75,7 +76,7 @@ public class MapsFragment extends Fragment {
             map = googleMap;
             LatLng point = new LatLng(lat, lng);
             defaultLocation = new LatLng(lat, lng);
-            googleMap.addMarker(new MarkerOptions().position(point).title("Marker in Sydney"));
+            googleMap.addMarker(new MarkerOptions().position(point).title(place_name));
 
             // Prompt the user for permission.
             getLocationPermission();
@@ -96,7 +97,7 @@ public class MapsFragment extends Fragment {
             GeoApiContext context = new GeoApiContext.Builder()
                     .apiKey("AIzaSyDG-k7ICXXSNLiOllCq4uDq_w8FL4q1gpE")
                     .build();
-            DirectionsApiRequest req = DirectionsApi.getDirections(context, "41.385064,2.173403", "40.416775,-3.70379");
+            DirectionsApiRequest req = DirectionsApi.getDirections(context, "24.968128, 121.194666", "24.967119, 121.190958");
             try {
                 DirectionsResult res = req.await();
 
@@ -164,6 +165,7 @@ public class MapsFragment extends Fragment {
                 lng = bundle.getDouble("lng");
                 defaultLocation = new LatLng(lat, lng);
                 String place = bundle.getString("place");
+                place_name = place;
                 ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle(place);
             }
         });

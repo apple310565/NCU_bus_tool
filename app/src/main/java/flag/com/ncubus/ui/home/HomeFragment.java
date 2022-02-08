@@ -290,8 +290,8 @@ public class HomeFragment extends Fragment {
         public void onClick(View v) {
             Log.d("[MAP]","圖書館的地圖~");
             Bundle result = new Bundle();
-            result.putDouble("lat", 24.968438302080717);
-            result.putDouble("lng", 121.1943910820179);
+            result.putDouble("lat", 24.968128);
+            result.putDouble("lng", 121.194666);
             result.putString("place", "中央大學圖書館");
             getParentFragmentManager().setFragmentResult("bikemap", result);
             //導向下一頁
@@ -305,8 +305,8 @@ public class HomeFragment extends Fragment {
         public void onClick(View v) {
             Log.d("[MAP]","依仁堂的地圖~");
             Bundle result = new Bundle();
-            result.putDouble("lat", 24.968967179889386);
-            result.putDouble("lng", 121.1908966);
+            result.putDouble("lat", 24.967119);
+            result.putDouble("lng", 121.190958);
             result.putString("place", "中央大學依仁堂");
             getParentFragmentManager().setFragmentResult("bikemap", result);
             //導向下一頁
@@ -343,7 +343,7 @@ public class HomeFragment extends Fragment {
 
                                 Log.e("[LOG dis]","得到位置");
                                 Log.d("[LOG dis]",String.valueOf(cur_lat)+", "+String.valueOf(cur_lng));
-                                double dis = distance(24.968438302080717,121.1943910820179, cur_lat, cur_lng)*1000;
+                                double dis = distance(24.968128,121.194666, cur_lat, cur_lng)*1000;
 
                                 TextView AvailableRentBikes1=(TextView)getView().findViewById(R.id.PlaceDiff1);
                                 if( dis != 0)
@@ -352,7 +352,7 @@ public class HomeFragment extends Fragment {
                                     AvailableRentBikes1.setText("距離 - - - 公尺");
 
                                 // 目前位置和依仁堂站的距離
-                                dis = distance(24.968967179889386,121.1908966, cur_lat, cur_lng)*1000;
+                                dis = distance(24.967119,121.190958, cur_lat, cur_lng)*1000;
                                 TextView AvailableRentBikes2=(TextView)getView().findViewById(R.id.PlaceDiff2);
                                 if( dis != 0)
                                     AvailableRentBikes2.setText("距離 "+Integer.valueOf((int)dis).toString()+" 公尺");

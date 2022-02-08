@@ -16,14 +16,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         db.execSQL("CREATE TABLE IF NOT EXISTS EasyCard(_Code Text primary key)");
         db.execSQL("CREATE TABLE IF NOT EXISTS FarvoriteBus(_BusID TEXT Not Null, _Direction INTEGER Not Null, PRIMARY KEY (_BusID, _Direction))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldversion, int newversion) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         db.execSQL("drop table if exists diary");
         onCreate(db);
     }
