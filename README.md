@@ -20,7 +20,6 @@
   <tr>
     <td align="center"><a href="https://github.com/iverJisty"><img src="https://avatars1.githubusercontent.com/u/4309210?v=4" width="32px;" alt="iverJisty"/><br /><sub><b>
 jerry4911</b></sub></a><br /><a href="https://github.com/Zankio/CCULife/commits?author=iverJisty" title="Code">💻</a></td>
-    <td align="center"><a href="http://DanSnow.github.io"><img src="https://avatars1.githubusercontent.com/u/5575082?v=4" width="32px;" alt="DanSnow"/><br /><sub><b></b></sub></a><br /><a href="https://github.com/Zankio/CCULife/commits?author=DanSnow" title="Code">💻</a></td>
   </tr>
 </table>
 
