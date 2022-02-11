@@ -18,7 +18,7 @@
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/iverJisty"><img src="https://avatars1.githubusercontent.com/u/4309210?v=4" width="32px;" alt="iverJisty"/><br /><sub><b>
+    <td align="center"><a href="https://github.com/iverJisty"><img src="https://avatars.githubusercontent.com/u/49276651?v=4" width="32px;" alt="iverJisty"/><br /><sub><b>
 jerry4911</b></sub></a><br /><a href="https://github.com/Zankio/CCULife/commits?author=iverJisty" title="Code">💻</a></td>
   </tr>
 </table>
