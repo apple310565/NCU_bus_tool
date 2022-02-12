@@ -2,12 +2,14 @@
 給中央大學在校生的交通APP
 
 ## 服務內容
-包含即時公車、校內Youbike、火車動態
+- 查詢校內公車即時動態、 Youbike 站點車輛及空位數量，同時提供台鐵時刻表查詢功能
+- 使用 Android Studio 開發應用程式，串接交通部 TDX API，取得即時資訊
+- 串接 Google Maps API，顯示站點以及裝置位置
 ## 介面展示
 
 
 ## 資料來源
-資料介接於交通部PTX平臺資料
+串接交通部 TDX API，取得交通部 PTX 平臺即時資料
 
 ## Contributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
