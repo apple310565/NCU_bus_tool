@@ -6,7 +6,7 @@
 - 使用 Android Studio 開發應用程式，串接交通部 TDX API，取得即時資訊
 - 串接 Google Maps API，顯示站點以及裝置位置
 ## 介面展示
-
+![NCU Bus](./app.jpg)
 
 ## 資料來源
 串接交通部 TDX API，取得交通部 PTX 平臺即時資料
