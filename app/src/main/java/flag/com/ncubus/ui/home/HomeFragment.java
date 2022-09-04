@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 bycycle();
-                bindClick_toMap();
+                //bindClick_toMap(); 因為後來google map api需要計費, 所以先停用
 
                 dbHelper = new MySQLiteHelper(getActivity(),"Course_sub",null,1);
                 db = dbHelper.getWritableDatabase();
