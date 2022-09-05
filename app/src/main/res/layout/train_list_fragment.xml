@@ -5,6 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.trainList.trainListFragment"
     android:background="@color/rice_white">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -136,5 +139,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </ScrollView>
 </FrameLayout>

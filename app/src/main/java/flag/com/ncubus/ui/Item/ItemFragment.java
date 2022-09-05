@@ -127,7 +127,7 @@ public class ItemFragment extends Fragment {
 
     private void getAlltrain(String src_ID, String dest_ID, String date, String selectedTime) {
         ProgressDialog dialog = ProgressDialog.show(getContext(),"讀取中"
-                ,"請稍候",true);
+                ,"更新資訊中，請稍候",true);
         new Thread(() -> { //一次性Thread
             HttpURLConnection connection = null;
             String urlString = "https://ptx.transportdata.tw/MOTC/v3/Rail/TRA/DailyTrainTimetable/OD/"+src_ID+"/to/"+dest_ID+"/"+date+"?%24top=214748364&%24format=JSON";

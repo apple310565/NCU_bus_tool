@@ -151,7 +151,7 @@ public class BusstopsFragment extends Fragment {
 
     public void bus(String urlString){
         ProgressDialog dialog = ProgressDialog.show(getContext(),"讀取中"
-                ,"請稍候",true);
+                ,"更新資訊中，請稍候",true);
         new Thread(() -> { //一次性Thread
             Log.e("[Connect]",urlString);
             //String urlString = "https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/Taoyuan/132?%24select=StopName%20%2C%20NextBusTime&%24filter=Direction%20eq%201&%24format=JSON\n";

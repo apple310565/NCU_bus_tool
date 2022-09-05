@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
         String urlString="https://ptx.transportdata.tw/MOTC/v2/Bike/Availability/Taoyuan?%24filter=StationUID%20eq%20'TAO2001'%20or%20StationUID%20eq%20'TAO2085'&%24orderby=StationUID%20&%24format=JSON";
         Log.e("[CONNECT 1]",urlString);
         ProgressDialog dialog = ProgressDialog.show(getContext(),"讀取中"
-                ,"請稍候",true);
+                ,"更新資訊中，請稍候",true);
         new Thread(() -> { //一次性Thread
             Log.e("[Connect 2]",urlString);
             try {

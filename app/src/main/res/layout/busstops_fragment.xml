@@ -48,5 +48,4 @@
             android:textSize="15sp"
             android:background="@drawable/rectangle_round_border"/>
     </LinearLayout>
-
 </FrameLayout>

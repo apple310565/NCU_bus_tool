@@ -7,6 +7,9 @@
     tools:context=".ui.notifications.NotificationsFragment"
     android:background="@color/rice_white">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -184,5 +187,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
